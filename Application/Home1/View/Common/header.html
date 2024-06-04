@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="zxx">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="__PUBLIC__/css/bootstrap.min.css?v=1.0">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="__PUBLIC__/css/animate.min.css">
+    <!-- Meanmenu CSS -->
+    <link rel="stylesheet" href="__PUBLIC__/css/meanmenu.css">
+    <!-- Boxicons CSS -->
+    <link rel="stylesheet" href="__PUBLIC__/css/boxicons.min.css">
+    <!-- Flaticon CSS -->
+    <link rel="stylesheet" href="__PUBLIC__/css/flaticon.css?v=1.0">
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="__PUBLIC__/css/owl.carousel.min.css">
+    <!-- Owl Theme Default CSS -->
+    <link rel="stylesheet" href="__PUBLIC__/css/owl.theme.default.min.css">
+    <!-- Odometer CSS -->
+    <link rel="stylesheet" href="__PUBLIC__/css/odometer.min.css">
+    <!-- Nice Select CSS -->
+    <!-- <link rel="stylesheet" href="__PUBLIC__/css/nice-select.min.css"> -->
+    <!-- Magnific Popup CSS -->
+    <link rel="stylesheet" href="__PUBLIC__/css/magnific-popup.min.css">
+    <!-- Imagelightbox CSS -->
+    <link rel="stylesheet" href="__PUBLIC__/css/imagelightbox.min.css">
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="__PUBLIC__/css/style.css?v=3.0">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="__PUBLIC__/css/responsive.css?v=1.7">
+    <link rel="stylesheet" href="__PUBLIC__/css/config.css">
+    <style>
+        @media only screen and (max-width: 767px) {
+            .col-lg-2 {
+                display: none;
+            }
+
+            /*     .col-lg-5{
+        display: none;
+    } */
+        }
+    </style>
+
+    <!--     <link rel="stylesheet" href="__PUBLIC__/css/mainu.css"> -->
+    <script src="https://kit.fontawesome.com/b65333c839.js" crossorigin="anonymous"></script>
+    <script src="__PUBLIC__/js/vue.js"></script>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/6307442454f06e12d890ac98/1gba64bnu';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+        function goCart() {
+
+            $.ajax({
+                url: "{:U('cart/getAllCart')}",
+                type: 'post',
+                data: {},
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data.data)
+                    if (data.data) {
+                        window.location.href = "{:U('index/cart')}"
+                    } else {
+                        alert('Please add something into cart first')
+                    }
+                }
+            })
+        }
+        function addOrUpdateUrlParam(name, value) {
+            var l = window.location;
+
+            /* build params */
+            var params = {};
+            var x = /(?:\??)([^=&?]+)=?([^&?]*)/g;
+            var s = l.search;
+            for (var r = x.exec(s); r; r = x.exec(s)) {
+                r[1] = decodeURIComponent(r[1]);
+                if (!r[2]) r[2] = '%%';
+                params[r[1]] = r[2];
+            }
+
+            /* set param */
+            params[name] = encodeURIComponent(value);
+
+            /* build search */
+            var search = [];
+            for (var i in params) {
+                var p = encodeURIComponent(i);
+                var v = params[i];
+                if (v != '%%') p += '=' + v;
+                search.push(p);
+            }
+            search = search.join('&');
+
+            /* execute search */
+            l.search = search;
+        }
+    </script>
+    <!--End of Tawk.to Script-->
+
+    <title>{:C('title')}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="icon" type="image/png" href="__PUBLIC__/image/favicon.ico">
+</head>
+
+<body>
+
+
+    <div id="loading">
+        <div id="loading-center">
+            <div id="loading-center-absolute">
+                <div class="object" id="object_one"></div>
+                <div class="object" id="object_two"></div>
+                <div class="object" id="object_three"></div>
+                <div class="object" id="object_four"></div>
+            </div>
+        </div>
+    </div>
+    <!-- End Preloader Area -->
+
+    <!-- Start Top Header Area -->
+    <div class="top-header-area" style="display:none">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-12">
+                    <ul class="top-header-information">
+                        <li>
+                            <i class="flaticon-pin"></i> {$shop.address}
+                        </li>
+                        <li>
+                            <i class="flaticon-clock"></i> {$shop.workDate}
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-6 col-md-12">
+                    <ul class="top-header-optional">
+                        <li>Currency: <b>HKD</b></li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Top Header Area -->
+
+    <!-- Start Middle Header Area -->
+    <div class="middle-header-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-2">
+                    <div class="middle-header-logo">
+                        <a href="{:U('index/index')}"><img src="__PUBLIC__/image/favicon.ico" alt="logo"></a>
+                    </div>
+                </div>
+                <div class="col-lg-10">
+                    <ul class="middle-header-optional" style="">
+                        <li><i class="fas fa-globe" style="color: #0C0717;"></i>
+                            <a onclick="addOrUpdateUrlParam('l','zh-tw')" onmouseover="this.style.color='orange';"
+                                onmouseout="this.style.color='';">{:L('language1')}</a>
+                            <a onclick="addOrUpdateUrlParam('l','zh-cn')" onmouseover="this.style.color='orange';"
+                                onmouseout="this.style.color='';">{:L('language2')}</a>
+                            <a onclick="addOrUpdateUrlParam('l','en-us')" onmouseover="this.style.color='orange';"
+                                onmouseout="this.style.color='';">{:L('language3')}</a>
+                        </li>
+                        <li>
+                            <a href="{:U('account/wishlist')}">
+                                {:L('wishlist')}
+                            </a>
+                        </li>
+                        <li>
+                        <li class="nav-item">
+                            <if condition="$_SESSION['uid']">
+                                <a href="#" onclick="goCart()">
+                                    {:L('cart')}
+                                </a>
+
+                                <else />
+                                <a href="{:U('account/login')}" onclick="alert('Please login first')">
+                                    {:L('cart')}
+                                </a>
+                            </if>
+                        </li>
+                        </li>
+                        <if condition="$_SESSION['uid']">
+                            <li>
+                                <a href="{:U('account/logOut')}" class="user-btn logout"><i
+                                        class='flaticon-enter'></i>{:L('logout')}</a>
+                            </li>
+                            <else />
+                            <li>
+                                <a href="{:U('account/login')}" class="user-btn"><i
+                                        class='flaticon-enter'></i>{:L('login')} / {:L('register')}</a>
+                            </li>
+                        </if>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Middle Header Area -->
+
+    <!-- Start Navbar Area -->
+    <div class="navbar-area">
+        <div class="main-responsive-nav">
+            <div class="container">
+                <div class="main-responsive-menu" style="
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                justify-content: space-around;
+                align-content: center;
+                align-items: flex-end;
+                width: 100%;
+            ">
+                    <div class="logo">
+                        <a href="{:U('index/index')}">
+                            <img src="__PUBLIC__/image/favicon.ico" alt="image">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-navbar">
+            <div class="container">
+                <nav class="navbar navbar-expand-md navbar-light">
+                    <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
+                        <ul class="navbar-nav m-auto">
+                            <li class="nav-item">
+                                <a href="{:U('index/index')}" class="nav-link">
+                                    {:L('home')}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{:U('index/booking')}" class="nav-link">
+                                    {:L('booking')}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{:U('index/about')}" class="nav-link">
+                                    {:L('about')}
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a href="{:U('index/cate')}" class="nav-link">
+                                    {:L('cate')}
+                                    <i class='bx bx-chevron-down'></i>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <volist name="cate" id="vo">
+                                        <li class="nav-item">
+                                            <a href="{:U('index/cate')}?id={$vo.cateId}" class="nav-link">
+                                                {$vo.name}
+                                            </a>
+                                        </li>
+                                    </volist>
+
+                                </ul>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a href="{:U('index/contact')}" class="nav-link">
+                                    {:L('contactUs')}
+                                </a>
+                            </li>
+                            <if condition="$_SESSION['uid']">
+                                <li class="nav-item">
+                                    <a href="{:U('account/account')}" class="nav-link">
+                                        {:L('userCenter')}
+                                    </a>
+                                </li>
+                                <else />
+                            </if>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <div class="others-option-for-responsive">
+            <div class="container">
+                <div class="dot-menu">
+                    <div class="inner">
+                        <div class="circle circle-one"></div>
+                        <div class="circle circle-two"></div>
+                        <div class="circle circle-three"></div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="option-inner">
+                        <div class="others-option d-flex align-items-center">
+                            <div class="option-item">
+                                <span>
+                                    {:L('tel')}:
+                                    <a href="tel:852{$pcset.phone}">{$pcset.phone} </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Navbar Area -->

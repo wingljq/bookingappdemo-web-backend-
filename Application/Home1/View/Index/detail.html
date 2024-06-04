@@ -1,0 +1,260 @@
+<include file="Common/header" />
+<style>
+    .default-btn{
+        width: 100%;
+    }
+    @media only screen and (max-width: 767px) {
+        .row {
+            display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center
+        }
+
+      img{
+        width: auto;
+    height: 260px;
+       }
+       .products-details{
+        width: 260px;
+       }
+       .container {
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    }
+    #cart1{
+        width: 260px
+    }
+    }
+</style>
+
+
+
+<!-- Start Page Banner -->
+<div class="page-banner">
+    <div class="row">
+        <div class="col-lg-12 col-md-12" style="padding: 0 0 0 0;">
+            <div class="home-slides owl-carousel owl-theme">
+                <volist name="pagebanner" id="vo">
+                    <div class="page-banner-area" style="background-image:url({$vo.image});
+                        background-position: center center;
+                        background-size: cover;
+                        background-repeat: no-repeat;
+                        padding-top: 100px;
+                        padding-bottom: 100px;
+                        position: relative;
+                        z-index: 1;
+                    ">
+                    <div class="container">
+                        <div class="page-banner-content">
+                            <h2>{:L('detail')}</h2>
+                            <ul>
+                                <li>
+                                    <a href="{:U('/')}" style="color: #F4EC00;">{:L('home')}</a>
+                                </li>
+                                <li><i class="fa fa-chevron-right" style="color: #ffff"></i></li>
+                                <li style="color: #ffff">{:L('detail')}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                </volist>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- End Page Banner -->
+
+<!-- Start Products Details Area -->
+<section class="products-details-area ptb-100">
+    <div class="container" id="app">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="products-details-desc">
+                    <div class="row align-items-center">
+                        <div class="col-lg-4 col-md-12">
+                            <div class="main-products-image">
+                                <img style="width:260px;height:260px" src="{$goodsInfo.coverImg}" alt="image">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-12">
+                            <div class="product-content">
+                                <p>{$goodsInfo.name}</p>
+
+                                <div class="price">
+                                    <!-- <span class="old-price">$150.00</span> -->
+                                    <p class="new-price">${$goodsInfo.price}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 " id="cart1" style="    display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        align-items: stretch;
+                        align-content: space-between;
+                        flex-wrap: nowrap;
+                        height: 130px;">
+
+                            <div class="product-add-to-cart">
+                                <if condition="$_SESSION['uid']">
+                                    <button class="default-btn" @click="addCart({$goodsInfo.id})"
+                                        onmouseover="this.setAttribute('style', );"
+                                        onmouseout="this.setAttribute('style',)">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        {:L('addToCart')}
+                                        <span></span>
+                                    </button>
+                                    <else />
+                                    <a href="{:U('account/login')}" class="default-btn"
+                                        onmouseover="this.setAttribute('style', );"
+                                        onmouseout="this.setAttribute('style',)">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        {:L('addToCart')}
+                                        <span></span>
+                                    </a>
+                                </if>
+                            </div>
+
+                            <if condition="$_SESSION['uid']">
+                                <button class="default-btn" @click="toggleFav({$goodsInfo.id})"
+                                    onmouseover="this.setAttribute('style',);"
+                                    onmouseout="this.setAttribute('style', )">
+                                    <i class="fa fa-heart"></i>
+                                    {:L('AddToWishlist')}
+                                    <span></span>
+                                </button>
+                                <else />
+                                <a href="{:U('account/login')}" class="default-btn"
+                                    onmouseover="this.setAttribute('style', );"
+                                    onmouseout="this.setAttribute('style',)">
+
+                                    <i class="fa fa-heart"></i>
+                                    {:L('AddToWishlist')}
+                                    <span></span>
+                                </a>
+                            </if>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="products-details" style="padding: 5%;
+        border: 1px #eaeaea solid;
+        box-shadow: 5px 3px 12px -1px;margin-top: 5%;;">
+            <p style="color: #2F4858;">{:L('details')}</p>
+            <br />
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="description" role="tabpanel">
+                    <!-- <h2>Overview</h2> -->
+
+                    {$goodsInfo.desc}
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+<!-- End Products Details Area -->
+
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        new Vue({
+            el: '#app',
+            data: {
+                goodsId: '',
+            },
+            methods: {
+
+                addCart: function (id) {
+
+                    $.ajax({
+                        url: "{:U('cart/addCart')}",
+                        type: 'post',
+                        data: {
+                            goodsId: id,
+                            quantity: 1,
+                        },
+                        dataType: 'json',
+                        success: function (json) {
+                            console.log(json)
+                            if (json.code == '0') {
+                                layer.msg(json.msg);
+                            } else {
+                                layer.msg(json.msg);
+                            }
+                        },
+                    })
+                },
+
+                toggleFav: function (id) {
+                    $.ajax({
+                        url: "{:U('index/addfavorite')}",
+                        type: 'post',
+                        data: {
+                            goodsId: id,
+                        },
+                        dataType: 'json',
+                        success: function (json) {
+                            if (json.code == '0') {
+                                layer.msg('請先登入');
+                            } else {
+                                if (json.message == "Delete  Wishlist") {
+                                    $("." + id).text(json.message);
+                                }
+                                layer.msg('success');
+                            }
+                        },
+                    })
+                },
+            }
+        })
+
+    })
+</script>
+<script>
+    // Input Plus & Minus Number JS
+    $(document).ready(function () {
+        $('.input-counter').each(function () {
+            var spinner = jQuery(this),
+                input = spinner.find('input[type="text"]'),
+                btnUp = spinner.find('.plus-btn'),
+                btnDown = spinner.find('.minus-btn'),
+                min = input.attr('min'),
+                max = input.attr('max');
+            btnUp.on('click', function () {
+                var oldValue = parseFloat(input.val());
+                if (oldValue >= max) {
+                    var newVal = oldValue;
+                } else {
+                    var newVal = oldValue + 1;
+                }
+                spinner.find("input").val(newVal);
+                spinner.find("input").trigger("change");
+            });
+            btnDown.on('click', function () {
+                var oldValue = parseFloat(input.val());
+                if (oldValue <= min) {
+                    var newVal = oldValue;
+                } else {
+                    var newVal = oldValue - 1;
+                }
+                spinner.find("input").val(newVal);
+                spinner.find("input").trigger("change");
+            })
+        })
+    })
+
+</script>
+<include file="Common/footer" />

@@ -1,0 +1,259 @@
+<include file="Common/header" />
+<!-- Start Page Banner -->
+<div class="page-banner">
+    <div class="row">
+        <div class="col-lg-12 col-md-12" style="padding: 0 0 0 0;">
+            <div class="home-slides owl-carousel owl-theme">
+                <volist name="pagebanner" id="vo">
+                    <div class="page-banner-area" style="background-image:url({$vo.image});
+                        background-position: center center;
+                        background-size: cover;
+                        background-repeat: no-repeat;
+                        padding-top: 100px;
+                        padding-bottom: 100px;
+                        position: relative;
+                        z-index: 1;
+                    ">
+                    <div class="container">
+                        <div class="page-banner-content">
+                            <h2>{:L('shop')}</h2>
+                            <ul>
+                                <li>
+                                    <a href="{:U('/')}" style="color: #F4EC00;">{:L('home')}</a>
+                                </li>
+                                <li><i class="fa fa-chevron-right" style="color: #ffff"></i></li>
+                                <li style="color: #ffff">{:L('shop')}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                </volist>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- End Page Banner -->
+
+<!-- Start Shop Area -->
+<section class="shop-area ptb-100">
+    <div class="container">
+        <div class="row">
+            <!-- <div class="col-lg-3 col-md-12">
+                        <div class="shop-category">
+                            <div class="category-title">
+                                <a href="#">Shop Department</a>
+                            </div>
+
+                            <div class="shop-category-menu">
+                                <ul class="category-list">
+                                    <li><a href="#">Batteries</a></li>
+                                    <li><a href="#">Tires Collection</a></li>
+                                    <li><a href="#">Wheels</a></li>
+                                    <li><a href="#">Oil & Lubricants</a></li>
+                                    <li><a href="#">Interior Parts</a></li>
+                                    <li><a href="#">Diversion</a></li>
+                                    <li><a href="#">Electronics</a></li>
+                                    <li><a href="#">Accessories</a></li>
+                                    <li><a href="#">Brake Rotors</a></li>
+                                    <li><a href="#">Pistons Liners</a></li>
+                                    <li><a href="#">Oil & Lubricants</a></li>
+                                    <li><a href="#">Batteries</a></li>
+                                    <li><a href="#">Door Handles</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="shop-sidebar">
+                            <div class="brand-sidebar-item">
+                                <h3>Brand</h3>
+
+                                <ul class="brand-input-checkbox">
+                                    <li class="checkbox">
+                                        <input type="checkbox" class="input">
+                                        <label class="label">Brandix</label>
+                                    </li>
+
+                                    <li class="checkbox">
+                                        <input type="checkbox" class="input">
+                                        <label class="label">Red Gate</label>
+                                    </li>
+
+                                    <li class="checkbox">
+                                        <input type="checkbox" class="input">
+                                        <label class="label">Sunset</label>
+                                    </li>
+
+                                    <li class="checkbox">
+                                        <input type="checkbox" class="input">
+                                        <label class="label">Spector</label>
+                                    </li>
+
+                                    <li class="checkbox">
+                                        <input type="checkbox" class="input">
+                                        <label class="label">TransTech</label>
+                                    </li>
+
+                                    <li class="checkbox">
+                                        <input type="checkbox" class="input">
+                                        <label class="label">Turbo Electric</label>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="discount-sidebar-item">
+                                <h3>With Discount</h3>
+
+                                <ul class="discount-input-checkbox">
+                                    <li class="checkbox">
+                                        <input type="checkbox" class="input">
+                                        <label class="label">Any</label>
+                                    </li>
+
+                                    <li class="checkbox">
+                                        <input type="checkbox" class="input">
+                                        <label class="label">No</label>
+                                    </li>
+
+                                    <li class="checkbox">
+                                        <input type="checkbox" class="input">
+                                        <label class="label">Yes</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div> -->
+
+            <div class="col-lg-12 col-md-12" id="app">
+                <volist name="list" id="vo">
+                    <div class="shop-item-box">
+                        <div class="row align-items-center">
+                            <div class="col-lg-3 col-sm-3">
+                                <a href="{:U('index/detail')}?id={$vo.id}">
+
+                                    <div class="shop-image">
+                                        <!--    <a href="{:U('index/details')}"> -->
+                                        <img style="width:300px;height:300px" src="{$vo.coverImg}" alt="image">
+
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-5 col-sm-5">
+                                <a href="{:U('index/detail')}?id={$vo.id}">
+
+                                    <div class="shop-content">
+                                        <h3>{$vo.name}
+                                            <!--  <a href="{:U('index/details')}"></a> -->
+                                        </h3>
+                                        <!-- <div class="rating">
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <a href="#" class="rating-count">3 reviews</a>
+                                        </div> -->
+                                        <!-- <ul class="shop-list">
+                                                <li>Speed: 750 RPM</li>
+                                                <li>Power Source: Electrical</li>
+                                                <li>Battery Cell Type: Aluminium</li>
+                                                <li>Voltage: 20 Volts</li>
+                                                <li>Battery Capacity: 2 Ah</li>
+                                            </ul> -->
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-3 col-sm-3">
+                                <ul class="shop-btn-list">
+                                    <li>
+                                        <span>${$vo.price}</span>
+                                    </li>
+                                    <li>
+                                        <a @click="addCart({$vo.id})">{:L('AddToCart')}</a>
+                                    </li>
+                                    <li>
+                                        <a class="{$vo.id}" @click="remove({$vo.id})">{:L('AddToWishlist')}</a>
+                                    </li>
+                                    <!-- <li>
+                                            <a href="compare.html">Add To Compare</a>
+                                        </li> -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </volist>
+
+                <!-- <div class="col-lg-12 col-md-12">
+                            <div class="pagination-area">
+                                <a href="#" class="prev page-numbers">
+                                    <i class='bx bxs-chevron-left'></i>
+                                </a>
+                                <a href="#" class="page-numbers">1</a>
+                                <span class="page-numbers current" aria-current="page">2</span>
+                                <a href="#" class="page-numbers">3</a>
+                                <a href="#" class="page-numbers">4</a>
+                                <a href="#" class="next page-numbers">
+                                    <i class='bx bxs-chevron-right'></i>
+                                </a>
+                            </div>
+                        </div> -->
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- End Shop Area -->
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        new Vue({
+            el: '#app',
+            data: {
+                goodsId: '',
+            },
+            methods: {
+
+                addCart: function (id) {
+                    $.ajax({
+                        url: "{:U('cart/addCart')}",
+                        type: 'post',
+                        data: {
+                            goodsId: id,
+                        },
+                        dataType: 'json',
+                        success: function (json) {
+                            if (json.code == '0') {
+                                layer.msg("{:L('success')}");
+                            } else if (json.code == '2001') {
+                                layer.msg("{:L('pleaseLogin')}");
+                            }
+
+                        },
+                    })
+
+                },
+                remove: function (id) {
+                    $.ajax({
+                        url: "{:U('index/addfavorite')}",
+                        type: 'post',
+                        data: {
+                            goodsId: id,
+                        },
+                        dataType: 'json',
+                        success: function (json) {
+                            if (json.code == '0') {
+                                layer.msg('請先登入');
+                            } else if (json.code == '2') {
+                                $("." + id).text("{:L('DeleteWishlist')}");
+                                layer.msg('sucess');
+                            }else if (json.code == '1') {
+                                $("." + id).text("{:L('AddToWishlist')}");
+                                layer.msg('sucess');
+                            }
+                        },
+                    })
+                },
+            }
+        })
+
+    })
+</script>
+<include file="Common/footer" />

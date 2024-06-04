@@ -1,0 +1,283 @@
+<include file="Common/header" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script type="text/javascript">
+    var Tawk_API = Tawk_API || {},
+        Tawk_LoadStart = new Date();
+    (function () {
+        var s1 = document.createElement("script"),
+            s0 = document.getElementsByTagName("script")[0];
+        s1.async = true;
+        s1.src = 'https://embed.tawk.to/6284b8117b967b11798ff40d/1g3b6u1m7';
+        s1.charset = 'UTF-8';
+        s1.setAttribute('crossorigin', '*');
+        s0.parentNode.insertBefore(s1, s0);
+    })();
+</script>
+<!-- Start Main Slides Area -->
+<style>
+    @media only screen and (max-width: 767px) {
+        .custom-row {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .single-products {
+            border-radius: 20px;
+            box-shadow: rgb(112 112 112) 0px 0px 20px;
+            display: flex;
+            padding: 10px;
+            flex-direction: column;
+        }
+    }
+
+    .thumb-container {
+        position: relative;
+        padding-bottom: 45px;
+        margin: 10px;
+        overflow: hidden;
+        border-radius: 20px;
+        box-shadow: 0px 0px 20px #d5dabeb3;
+        height: 35vh;
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+    }
+
+    .thumb-img {
+        /* position: absolute; */
+        width: 100%;
+        height: 100%;
+        border-radius: 0px;
+        padding: 0px;
+        overflow: hidden;
+        border: 0px;
+
+    }
+
+    .thumb-img img {
+        /* height: 100%; */
+        margin: auto;
+        width: 100%;
+        padding-top: 2vh;
+        height: 25vh;
+
+    }
+
+
+
+    .right {
+        height: 5vh
+    }
+
+    .left {
+        /* float: none; */
+        /* not needed, just for clarification */
+        /* background: #e8f6fe; */
+        /* the next props are meant to keep this block independent from the other floated one */
+        width: auto;
+        overflow: hidden;
+    }
+</style>
+<div class="main-slides">
+    <div class="row">
+        <div class="col-lg-12 col-md-12" style="
+        padding: 0 0 0 0;
+    ">
+            <div class="home-slides owl-carousel owl-theme">
+                <volist name="homebanner" id="vo">
+                    <div class="main-slides-item1" style="background-image:url({$vo.image});
+                        background-position: center center;
+                        background-size: cover;
+                        background-repeat: no-repeat;
+                        padding-top: 150px;
+                        padding-bottom: 150px;
+                        position: relative;
+                        z-index: 1;
+                    ">
+                    </div>
+                </volist>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- End Main Slides Area -->
+
+<!-- Start Support Area -->
+<section class="support-area">
+    <div class="container">
+        <div class="custom-row " style="    display: inline-flex;
+        width: 100%;
+        flex-wrap: nowrap;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+    ">
+            <div class="custom-item">
+                <div class="single-support">
+                    <div class="icon">
+                        <i class="flaticon-free-delivery"></i>
+                    </div>
+                    <div class="support-content">
+
+                        <h3>{:L('worlddelivery')}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-item">
+                <div class="single-support">
+                    <div class="icon">
+                        <i class="flaticon-return-of-investment"></i>
+                    </div>
+
+                    <div class="support-content">
+                        <h3>{:L('easyreturns')}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-item">
+                <div class="single-support">
+                    <div class="icon">
+                        <i class="flaticon-online-payment"></i>
+                    </div>
+                    <div class="support-content">
+                        <h3>{:L('paymentcomfort')}</h3>
+                        <!-- <span>{:L('worldwide')}</span> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-item">
+                <div class="single-support">
+                    <div class="icon">
+                        <i class="flaticon-online-support"></i>
+                    </div>
+
+                    <div class="support-content">
+                        <h3>{:L('onlinesupport')}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-item">
+                <div class="single-support">
+                    <div class="icon">
+                        <i class="flaticon-award"></i>
+                    </div>
+                    <div class="support-content">
+                        <h3>{:L('qualityproduct')}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="products-area pt-100 pb-70">
+    <div class="container">
+        <div class="section-title">
+            <h2>{:L('hotproduct')}</h2>
+        </div>
+
+        <div class="tab products-list-tab">
+            <!-- <ul class="tabs">
+                <li>
+                    <a href="#">{:L('onsale')}</a>
+                </li>
+            </ul> -->
+
+            <div class="tab_content">
+                <div class="tabs_item">
+                    <div class="row" id="app" style="    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    -ms-flex-wrap: wrap;
+                    flex-wrap: wrap;
+                    flex-direction: row;
+                    align-content: center;
+                    justify-content: center;
+                    align-items: center;
+                   
+                    
+                ">
+                        <volist name="list" id="vo">
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="container thumb-container">
+                                    <div class="right">
+                                        <h5>
+                                            <a href="{:U('index/detail')}?id={$vo.id}"
+                                                style="color:#CCD5AE">{$vo.name}</a>
+                                        </h5>
+                                        <h5 style="color:#a7925c">${$vo.price}</h5>
+                                    </div>
+                                    <div class="left">
+                                        <div class="thumb-img products-image">
+                                            <a href="{:U('index/detail')}?id={$vo.id}">
+                                                <img src="{$vo.coverImg}" alt="image" />
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </volist>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        new Vue({
+            el: '#app',
+            data: {
+                goodsId: '',
+            },
+            methods: {
+                addCart: function (id) {
+                    $.ajax({
+                        url: "{:U('index/addCart')}",
+                        type: 'post',
+                        data: {
+                            goodsId: id,
+                        },
+                        dataType: 'json',
+                        success: function (json) {
+                            if (json.code == '0') {
+                                layer.msg(json.message);
+                            } else {
+                                layer.msg(json.message);
+                            }
+                        },
+                    })
+                },
+
+                toggleFav: function (id) {
+                    $.ajax({
+                        url: "{:U('index/addfavorite')}",
+                        type: 'post',
+                        data: {
+                            goodsId: id,
+                        },
+                        dataType: 'json',
+                        success: function (json) {
+                            if (json.code == '0') {
+                                layer.msg('請先登入');
+                            } else {
+                                if (json.message == "Delete  Wishlist") {
+                                    $("." + id).text(json.message);
+                                }
+                                layer.msg('success');
+                            }
+                        },
+                    })
+                },
+            }
+        })
+
+    })
+</script>
+<include file="Common/footer" />

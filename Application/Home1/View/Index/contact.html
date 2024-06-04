@@ -1,0 +1,387 @@
+<include file="Common/header" />
+<!-- Start Page Banner -->
+<style>
+    @media only screen and (max-width: 767px) {
+        .row{
+            display: flex;
+            flex-direction: column;
+        }
+    }
+</style>
+
+
+<div class="page-banner">
+    <div class="row">
+        <div class="col-lg-12 col-md-12" style="padding: 0 0 0 0;">
+            <div class="home-slides owl-carousel owl-theme">
+                <volist name="pagebanner" id="vo">
+                    <div class="page-banner-area" style="background-image:url({$vo.image});
+                        background-position: center center;
+                        background-size: cover;
+                        background-repeat: no-repeat;
+                        padding-top: 100px;
+                        padding-bottom: 100px;
+                        position: relative;
+                        z-index: 1;
+                    ">
+                    <div class="container">
+                        <div class="page-banner-content">
+                            <h2>{:L('contactUs')}</h2>
+                            <ul>
+                                <li>
+                                    <a href="{:U('/')}" style="color: #F4EC00;">{:L('home')}</a>
+                                </li>
+                                <li><i class="fa fa-chevron-right" style="color: #ffff"></i></li>
+                                <li style="color: #ffff">{:L('contactUs')}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                </volist>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- End Page Banner -->
+
+<!-- Start Contact Info Area -->
+<section class="contact-info-area pt-100 pb-70">
+<!--     <div class="logo" style="width: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;padding-bottom: 5%;">
+        <img src="__PUBLIC__/image/favicon.ico" alt="">
+    </div> -->
+   <!--  <div class="container"> -->
+        <div class="row" >
+            <div class="col-lg-4 col-md-12 col-sm-12">
+                <div class="contact-info-box">
+                    <div class="icon">
+                        <i class='bx bxs-phone-call'></i>
+                    </div>
+                    <p><a href="tel:{$pcest.phone}">{$pcset.phone}</a></p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12">
+                <div class="contact-info-box">
+                    <div class="icon">
+                        <i class='fa fa-clock-o'></i>
+                    </div>
+                    <p>{$pcset.workTime}</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12">
+                <div class="contact-info-box">
+                    <div class="icon">
+                        <i class='bx bx-map'></i>
+                    </div>
+                    <p>{$pcset.address1}</p>
+                </div>
+            </div>
+
+        </div>
+  <!--   </div> -->
+</section>
+<!-- End Contact Info Area -->
+
+<!-- Start Contact Area -->
+<!-- <section class="contact-area pb-100">
+    <div class="container" id="app">
+        <div class="section-title">
+            <h2>Ready To take Booking?</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+
+        <div class="contact-form">
+            <form>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input id="firstName" v-model="firstName" type="text" name="name" class="form-control" required data-error="Please enter your name">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input id="email" v-model="email" type="email" name="email" class="form-control" required data-error="Please enter your email">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input id="phone" v-model="phone" type="text" name="phone_number" id="phone_number" required data-error="Please enter your number" class="form-control">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="form-group">
+                            <label>Booking date</label>
+                            <input id="booking_time" v-model="booking_time" type="datetime-local" class="form-control" required placeholder="yyyy-mm-dd" autocomplete="off">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label>Message</label>
+                            <input id="desc" v-model="desc" name="message" class="form-control" id="message" cols="30" rows="6" required data-error="Write your message">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </form>
+            <div class="col-lg-12 col-md-12">
+                <button type="submit" @click="orderPay(2)" class="default-btn">
+                                    Send Message
+                                </button>
+
+
+                <div class="clearfix"></div>
+            </div>
+            <div id="msgSubmit" class="h3 text-center hidden"></div>
+        </div>
+    </div>
+</section>
+ -->
+
+
+
+<script type="text/javascript">
+    new Vue({
+        el: '#app',
+        data: {
+
+            desc: '',
+            booking_time: '',
+            /*   time: '', */
+            firstName: '',
+            phone: '',
+            email: '',
+
+        },
+
+
+        methods: {
+
+
+            orderPay: function (payType) {
+
+                if (!this.firstName) {
+                    alert('請填寫名稱');
+                    return false;
+                }
+
+                if (!this.phone) {
+                    alert('請填寫手機號碼');
+                    return false;
+                }
+                if (!this.email) {
+                    alert('請填寫電郵');
+                    return false;
+                }
+                if (!this.booking_time) {
+                    alert('請選擇預約日期');
+                    return false;
+                }
+
+
+                $.ajax({
+
+                    url: "{:U('booking/getUserBooking')}",
+
+                    data: {
+
+                        desc: this.desc,
+                        booking_time: this.booking_time,
+                        /*  time: this.time, */
+                        firstName: this.firstName,
+                        phone: this.phone,
+                        email: this.email,
+
+                    },
+
+                    type: "post",
+
+                    dataType: "json",
+
+                    success: function (res) {
+
+                        //   layer.closeAll();
+
+                        if (res.code == 0) {
+                            fresh();
+                        } else if (res.code == 1) {
+
+                            var para = "";
+                            para += "out_trade_no=" + res.data.out_trade_no;
+                            para += "&money=" + res.data.money;
+                            para += "&return_url=" + res.data.return_url;
+                            para += "&body=" + res.data.body;
+                            var url = "__ROOT__/pay/index.php?" + para;
+                            console.log(url);
+                            location.href = {
+                                url
+                            };
+
+                        }
+                    }
+                })
+
+
+            },
+
+
+
+
+
+
+        }
+
+    })
+</script>
+<!-- End Contact Area -->
+
+<!-- Start Map Area -->
+<!-- <div id="map">
+            <iframe src="https://ditu.google.cn/maps/embed?pb=!1m18!1m12!1m3!1d3022.9476519598093!2d-73.99185268459418!3d40.74117737932881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a3f81d549f%3A0xb2a39bb5cacc7da0!2s175%205th%20Ave%2C%20New%20York%2C%20NY%2010010%2C%20USA!5e0!3m2!1sen!2sbd!4v1588746137032!5m2!1sen!2sbd"></iframe>
+        </div> -->
+<!-- End Map Area -->
+
+<!-- Start Footer Area -->
+<!-- <section class="footer-area pt-100 pb-70">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="single-footer-widget">
+                            <a href="index.html">
+                                <img src="assets/img/logo-2.png" alt="image">
+                            </a>
+
+                            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+                            <ul class="footer-social">
+                                <li>
+                                    <a href="#" target="_blank">
+                                        <i class='bx bxl-facebook'></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" target="_blank">
+                                        <i class='bx bxl-twitter'></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" target="_blank">
+                                        <i class='bx bxl-pinterest-alt'></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" target="_blank">
+                                        <i class='bx bxl-linkedin'></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h2>Recent Post</h2>
+
+                            <div class="footer-post">
+                                <article class="item">
+                                    <a href="#" class="thumb">
+                                        <span class="fullimage cover bg1" role="img"></span>
+                                    </a>
+                                    <div class="info">
+                                        <h4 class="title usmall">
+                                            <a href="#">Electronic Car Protect Air Pollution</a>
+                                        </h4>
+                                        <span>24 Dec 2020</span>
+                                    </div>
+                                </article>
+
+                                <article class="item">
+                                    <a href="#" class="thumb">
+                                        <span class="fullimage cover bg2" role="img"></span>
+                                    </a>
+                                    <div class="info">
+                                        <h4 class="title usmall">
+                                            <a href="#">Automotive Advancements to Look Forward</a>
+                                        </h4>
+                                        <span>25 Dec 2020</span>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="single-footer-widget pl-5">
+                            <h2>Quick Links</h2>
+
+                            <ul class="quick-links">
+                                <li>
+                                    <i class='bx bxs-chevrons-right'></i>
+                                    <a href="#">About Company</a>
+                                </li>
+                                <li>
+                                    <i class='bx bxs-chevrons-right'></i>
+                                    <a href="#">Services</a>
+                                </li>
+                                <li>
+                                    <i class='bx bxs-chevrons-right'></i>
+                                    <a href="#">Shop</a>
+                                </li>
+                                <li>
+                                    <i class='bx bxs-chevrons-right'></i>
+                                    <a href="#">FAQ</a>
+                                </li>
+                                <li>
+                                    <i class='bx bxs-chevrons-right'></i>
+                                    <a href="#">Blog</a>
+                                </li>
+                                <li>
+                                    <i class='bx bxs-chevrons-right'></i>
+                                    <a href="#">Gallery</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h2>Information</h2>
+
+                            <ul class="footer-contact-info">
+                                <li>
+                                    <i class='bx bxs-phone'></i>
+                                    <span>Phone</span>
+                                    <a href="tel:882569756">882-569-756</a>
+                                </li>
+                                <li>
+                                    <i class='bx bx-envelope'></i>
+                                    <span>Email</span>
+                                    <a href="mailto:hello@maxon.com">hello@maxon.com</a>
+                                </li>
+                                <li>
+                                    <i class='bx bx-map'></i>
+                                    <span>Address</span>
+                                    175 5th Ave Premium Area, New York
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+<include file="Common/footer" />

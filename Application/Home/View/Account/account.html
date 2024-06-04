@@ -1,0 +1,77 @@
+<include file="Common/header" />
+<style>
+    @media only screen and (max-width: 767px) {
+        .row{
+            display: flex;
+            flex-direction: column;
+        }
+    }
+</style>
+<div class="page-banner">
+    <div class="row">
+        <div class="col-lg-12 col-md-12" style="padding: 0 0 0 0;">
+            <div class="home-slides owl-carousel owl-theme">   
+            <volist name="pagebanner" id="vo">
+                    <div class="page-banner-area" style="background-image:url({$vo.image});
+                        background-position: center center;
+                        background-size: cover;
+                        background-repeat: no-repeat;
+                        padding-top: 150px;
+                        padding-bottom: 150px;
+                        position: relative;
+                        z-index: 1;
+                    ">
+                    <div class="container">
+                        <div class="page-banner-content">
+                            <h2>{:L('myaccount')}</h2>
+                            <ul>
+                                <li>
+                                    <a href="index.html" style="color: #F4EC00;">{:L('home')}</a>
+                                </li>
+                                <li><i class="fa fa-chevron-right" style="color: #ffff"></i></li>
+                                <li style="color: #ffff">{:L('myaccount')}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                </volist>
+                </div>
+        </div>
+    </div>
+</div>
+        <section class="contact-info-area pt-100 pb-70">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="contact-info-box">
+                            <div class="icon" >
+                                <a href="{:U('account/order')}"> <i class='bx bxs-shopping-bag'></i> </a>
+                            </div>
+                            <h3>{:L('Order')}</h3>
+                            <p><a href="{:U('account/order')}">{:L('OrderRecord')}</a></p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="contact-info-box">
+                            <div class="icon">
+                                <a href="{:U('account/wishlist')}"> <i class='bx bx-collection'></i> </a>
+                            </div>
+                            <h3>{:L('Wishlist')}</h3>
+                            <p><a href="{:U('account/wishlist')}">{:L('WishlistRecord')}</a></p>
+                        </div>
+                    </div> 
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="contact-info-box">
+                            <div class="icon">
+                                <a href="{:U('account/coupon')}"> <i class="fa fa-ticket" aria-hidden="true"></i> </a>
+                            </div>
+                            <h3>{:L('coupon')}</h3>
+                            <p><a href="{:U('account/coupon')}">{:L('redeemCoupon')}</a></p>
+                        </div>
+                    </div> 
+
+                </div>
+            </div>
+        </section>
+
+<include file="Common/footer" />

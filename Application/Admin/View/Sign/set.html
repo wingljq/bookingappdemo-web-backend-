@@ -1,0 +1,139 @@
+<include file="Common/head" />
+	<body>
+		
+		<div  style="width: 60%;margin: auto; padding: 60px 0; ">
+		<form  id="form">	
+
+
+		<div  style="text-align: left;color: #7c83a3;font-size: 30px ;text-indent: 20px ;margin:0px 0 25px; position: relative;" > Experience form information settings now </div>	
+
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Limited time discount course name</div>
+				<div  class="adminInputLine"><input type="text"  name="limitTimeYhCourse" value="{$info.limitTimeYhCourse}"  /></div>
+
+			</div>
+
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Free experience for a limited time</div>
+				<div  class="adminInputLine"><input type="text" name="limitTimeFreeLearnCourse" value="{$info.limitTimeFreeLearnCourse}" /></div>
+			
+			</div>
+
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Ace treatment</div>
+
+				<div  class="adminInputLine"><input type="text" name="huangpaiTreatment" value="{$info.huangpaiTreatment}" /></div>
+			
+			</div>
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Medical treatment course </div>
+				<div  class="adminInputLine"><input type="text" name="medicalTreatmentCourse" value="{$info.medicalTreatmentCourse}" /></div>
+			
+			</div>
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Medical and aesthetic treatment </div>
+				<div  class="adminInputLine"><input type="text" name="medicalBeautyCourse" value="{$info.medicalBeautyCourse}" /></div>
+			
+			</div>
+
+
+			<!-- <div  class="adminInputGroup">
+				<div  class="adminInputTitle">價格</div>
+				<div  class="adminInputLine"><input type="text" name="price" value="{$info.price}" /></div>
+			
+			</div> -->
+
+			
+
+			<span  style="font-size: 12px;display: inline-block;margin-top: 35px;text-indent: 20px; "> Enter multiple names separated by semicolons '；'</span>
+
+
+
+			<div  class="adminInputGroup"  style="text-align: center;">
+
+
+				<span class="saveDoBtn" >save</span>
+			
+			</div>
+
+
+
+			
+
+
+
+
+
+
+
+		</form>
+
+		</div>
+		
+		
+	</body>
+</html>
+
+
+<script type="text/javascript">
+
+var id="{$info.id}";
+if(id==false){
+   var url="{:U('setSave')}?do=add";
+}else{
+   var url="{:U('setSave')}?do=edit&id="+id;
+}
+
+
+$('.saveDoBtn').click(function(){
+
+	//var name=$('input[name=name]').val();
+	
+	
+	
+	// if(!name){
+	// 	layer.msg('請輸入有效的name');
+	// 	return false;
+	// }
+	
+	
+	
+	$.ajax({
+			url:url,
+			type:"post",
+			dataType:"json",
+			data:new FormData($('#form')[0]),
+	    	processData:false,
+	    	contentType:false,
+			success:function(data){
+
+				if(data.status==111){
+                        layer.msg(data.msg);
+                        setTimeout(function(){
+                         //location.reload();
+                        },500)
+                    }else{
+                        layer.msg(data.msg);
+                	}
+
+
+
+				
+			}
+		})
+	
+	
+	
+
+	
+	
+})
+
+</script>
+
+

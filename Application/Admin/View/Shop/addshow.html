@@ -1,0 +1,188 @@
+<include file="Common/head" />
+	<body>
+		
+		<div  style="width: 60%;margin: auto; padding: 60px 0; ">
+		<form  id="form">			
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Shop name</div>
+				<div  class="adminInputLine"><input type="text"  name="name" value="{$info.name}"  /></div>
+
+			</div>
+			<div  class="adminInputGroup" >
+				<div  class="adminInputTitle">Shop pictures</div>
+
+				<div  class="adminInputLine"  style="position: relative;height: 55px" >
+
+				<span  class="addPicBtn" ><i id="icon-shangchuan1" class="iconfont icon-shangchuan1"></i>&nbsp;選擇圖片</span>
+
+				<input  class="addPicInput"   id="id_myfile" type="file"  placeholder="請選擇圖片" name="image"  onchange="javascript:layer.msg('選擇圖片成功')"   />
+					
+				<img  style="width: 100px;margin-left: 100px;position: absolute;z-index: 100;height: 60px;"   id="id_img" src="{$info.image}">
+
+				<div style="clear: both;"></div>
+
+				
+				</div>
+			
+			</div>
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Shop introduction </div>
+				<div  class="adminInputLine">
+
+
+				<textarea name="desc1" class="descInput" id="desc1"  >{$info.desc1}</textarea>
+
+
+				</div>
+			
+			</div>
+
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Shop description </div>
+
+				<div  class="adminInputLine">
+
+				<textarea name="desc2" class="descInput" id="desc2"  >{$info.desc2}</textarea>
+
+
+				</div>
+			
+			</div>
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Telephone</div>
+				<div  class="adminInputLine"><input type="text" name="phone" value="{$info.phone}" /></div>
+			
+			</div>
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">What's App</div>
+				<div  class="adminInputLine"><input type="text" name="whatsApp" value="{$info.whatsApp}" /></div>
+			
+			</div>
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">facebook</div>
+				<div  class="adminInputLine"><input type="text" name="facebook" value="{$info.facebook}" /></div>
+			
+			</div>
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">address</div>
+				<div  class="adminInputLine"><input type="text" name="address" value="{$info.address}" /></div>
+			
+			</div>
+
+
+			<div  class="adminInputGroup"  style="text-align: center;">
+				<span class="saveDoBtn">save</span>
+			
+			</div>
+
+
+
+		</form>
+
+		</div>
+		
+		
+	</body>
+</html>
+
+
+<script type="text/javascript">
+
+
+
+
+
+
+var id="{$info.id}";
+if(id==false){
+   var url="{:U('save')}?do=add";
+}else{
+   var url="{:U('save')}?do=edit&id="+id;
+}
+
+
+$('.saveDoBtn').click(function(){
+
+	var name=$('input[name=name]').val();
+	var desc1=$('#desc1').val();
+	
+	var desc2=$('#desc2').val();
+	
+	var phone=$('input[name=phone]').val();
+	var whatsApp=$('input[name=whatsApp]').val();
+	var facebook=$('input[name=facebook]').val();
+	var address=$('input[name=address]').val();
+	
+	
+	if(!name){
+		layer.msg('請輸入有效的店鋪名稱');
+		return false;
+	}
+	// if(!desc1){
+	// 	layer.msg('請輸入有效的店鋪介紹');
+	// 	return false;
+	// }
+	// if(!desc2){
+	// 	layer.msg('請輸入有效的店鋪描述');
+	// 	return false;
+	// }
+	// if(!phone){
+	// 	layer.msg('請輸入有效的電話');
+	// 	return false;
+	// }
+	// if(!whatsApp){
+	// 	layer.msg('請輸入有效的whatsApp');
+	// 	return false;
+	// }
+	// if(!facebook){
+	// 	layer.msg('請輸入有效的facebook');
+	// 	return false;
+	// }
+	// if(!address){
+	// 	layer.msg('請輸入有效的地址');
+	// 	return false;
+	// }
+	
+	layer.load(1);
+	$.ajax({
+			url:url,
+			type:"post",
+			dataType:"json",
+			data:new FormData($('#form')[0]),
+	    	processData:false,
+	    	contentType:false,
+			success:function(data){
+layer.msg(data.msg);
+				if(data.status==111){
+                        layer.msg(data.msg);
+                        setTimeout(function(){
+                         parent.location.reload(); // 父頁面刷新
+                         var index = parent.layer.getFrameIndex(window.name); //獲取窗口索引
+                            parent.layer.close(index);
+                        },500)
+                    }else{
+                        layer.msg(data.msg);
+                	}
+
+
+
+				
+			}
+		})
+	
+	
+	
+
+	
+	
+})
+
+</script>
+
+

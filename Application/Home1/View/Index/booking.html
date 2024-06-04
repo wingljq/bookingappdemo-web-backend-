@@ -1,0 +1,160 @@
+<include file="Common/header" />
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<title>{:L('booking')}</title>
+<div class="container">
+    <div class="row align-items-center" style="padding: 5%;align-items: center;display: flex;justify-content: center;">
+        <div id="app1" class="col-md-8">
+            <h3>{:L('booking')}</h3>
+            <form>
+                <div class="form-group">
+                    <input id="firstName" type="text" style="display: block;
+                    width: 100%;
+                    padding: 0.375rem 0.75rem;
+                    font-size: 1rem;
+                    line-height: 1.5;
+                    background-clip: padding-box;
+                    border: 1px solid #ced4da;
+                    border-radius: 0.25rem;
+                    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+                " id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="{:L('YourName')}" v-model="firstName">
+                </div>
+                <div class="form-group">
+                    <input id="phone" type="tel" style="display: block;
+                    width: 100%;
+                    padding: 0.375rem 0.75rem;
+                    font-size: 1rem;
+                    line-height: 1.5;
+                    background-clip: padding-box;
+                    border: 1px solid #ced4da;
+                    border-radius: 0.25rem;
+                    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+                " name="phone" placeholder="{:L('YourPhone')}"
+                        v-model="phone">
+                </div>
+                <div class="form-group">
+                    <input id="email" type="email" style="display: block;
+                    width: 100%;
+                    padding: 0.375rem 0.75rem;
+                    font-size: 1rem;
+                    line-height: 1.5;
+                    background-clip: padding-box;
+                    border: 1px solid #ced4da;
+                    border-radius: 0.25rem;
+                    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+                " name="email" placeholder="{:L('YourEmail')}"
+                        v-model="email">
+                </div>
+                <div class="form-group">
+                    <input id="date" type="datetime-local" style="display: block;
+                    width: 100%;
+                    padding: 0.375rem 0.75rem;
+                    font-size: 1rem;
+                    line-height: 1.5;
+                    background-clip: padding-box;
+                    border: 1px solid #ced4da;
+                    border-radius: 0.25rem;
+                    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+                " name="date"
+                        placeholder="{:L('BookingDate')}" v-model="booking_time">
+                </div>
+                <div class="form-group">
+                    <textarea id="desc" rows="4" type="text" style="display: block;
+                    width: 100%;
+                    padding: 0.375rem 0.75rem;
+                    font-size: 1rem;
+                    line-height: 1.5;
+                    background-clip: padding-box;
+                    border: 1px solid #ced4da;
+                    border-radius: 0.25rem;
+                    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+                " name="desc"
+                        placeholder="{:L('request')}" v-model="desc"></textarea>
+                </div>
+
+                <!--    <small class="form-text text-muted mt-3">We don't span customers. Check our <a href="#">Privacy Policy</a></small> -->
+            </form>
+            <button @click="orderPay(2)" type="submit" class="btn btn-primary btn-block"
+                style="margin: 55px 0px 8px;">Book Now</button>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    new Vue({
+        el: '#app1',
+        data: {
+            desc: '',
+            booking_time: '',
+            firstName: '',
+            phone: '',
+            email: '',
+        },
+        methods: {
+            orderPay: function (payType) {
+
+                if (!this.firstName) {
+                    alert('請填寫名稱');
+                    return false;
+                }
+
+                if (!this.phone) {
+                    alert('請填寫手機號碼');
+                    return false;
+                }
+
+                if (!this.email) {
+                    alert('請填寫電郵地址');
+                    return false;
+                }
+
+                if (!this.booking_time) {
+                    alert('請選擇預約日期');
+                    return false;
+                }
+                $.ajax({
+                    url: "{:U('booking/addUserBooking')}",
+                    data: {
+                        desc: this.desc,
+                        booking_time: this.booking_time,
+                        firstName: this.firstName,
+                        phone: this.phone,
+                        email: this.email,
+                    },
+                    type: "post",
+                    dataType: "json",
+
+                    success: function (res) {
+                        console.log(res);
+                        if (res.status == 200) {
+                            alert(res.msg)
+                            setTimeout(function() {
+                                location.href = "{:C('url')}";
+                            }, 1000);
+                        }else{
+                            alert(res.msg)
+                        }
+                        // if (res.code == 0) {
+                        //     fresh();
+                        // } else if (res.code == 1) {
+
+                        //     var para = "";
+                        //     para += "out_trade_no=" + res.data.out_trade_no;
+                        //     para += " &money=" + res.data.money;
+                        //     para += " &return_url=" + res.data.return_url;
+                        //     para += " &body=" + res.data.body;
+                        //     var url = " __ROOT__/pay/index.php?" + para;
+                        //     console.log(url);
+                        //     location.href = {
+                        //         url
+                        //     };
+                        // }
+                    }
+                })
+            },
+        }
+    })
+</script>
+<include file="Common/footer" />

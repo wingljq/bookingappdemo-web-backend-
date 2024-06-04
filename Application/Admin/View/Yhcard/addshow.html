@@ -1,0 +1,147 @@
+<include file="Common/head" />
+
+<body>
+
+    <div style="width: 60%;margin: auto; padding: 60px 0; ">
+        <form id="form">
+
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">English Name</div>
+                <div class="adminInputLine"><input type="text" name="name" value="{$info.name}" /></div>
+            </div>
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">繁中名稱</div>
+                <div class="adminInputLine"><input type="text" name="twName" value="{$info.twName}" /></div>
+            </div>
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">簡中名稱</div>
+                <div class="adminInputLine"><input type="text" name="cnName" value="{$info.cnName}" /></div>
+            </div>
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Pictures</div>
+                <div class="adminInputLine" style="position: relative;height: 55px">
+                    <span class="addPicBtn"><i id="icon-shangchuan1" class="iconfont icon-shangchuan1"></i>&nbsp;Select
+                        Picture</span>
+                    <input class="addPicInput" id="id_myfile" type="file" placeholder="請選擇圖片" name="image" />
+                    <img style="width: 100px;margin-left: 100px;position: absolute;z-index: 100;height: 60px;"
+                        id="id_img" src="{$info.image}">
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Deduction amount</div>
+                <div class="adminInputLine"><input type="text" name="deduMoney" value="{$info.deduMoney}" /></div>
+
+            </div>
+
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Exchange points</div>
+                <div class="adminInputLine"><input type="text" name="redeemScore" value="{$info.redeemScore}" /></div>
+
+            </div>
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Start time</div>
+                <div class="adminInputLine"><input type="date" name="begDate" value="{$info.begDate}" /></div>
+
+            </div>
+
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">End time</div>
+                <div class="adminInputLine"><input type="date" name="endDate" value="{$info.endDate}" /></div>
+
+            </div>
+
+
+
+            <div class="adminInputGroup" style="text-align: center;">
+                <span class="saveDoBtn">save</span>
+
+            </div>
+
+
+
+        </form>
+
+    </div>
+
+
+</body>
+
+</html>
+
+
+<script type="text/javascript">
+    var id = "{$info.id}";
+    if (id == false) {
+        var url = "{:U('save')}?do=add";
+    } else {
+        var url = "{:U('save')}?do=edit&id=" + id;
+    }
+
+
+    $('.saveDoBtn').click(function () {
+
+        var name = $('input[name=name]').val();
+        var deduMoney = $('input[name=deduMoney]').val();
+        var begDate = $('input[name=begDate]').val();
+        var endDate = $('input[name=endDate]').val();
+        var score = $('input[name=redeemScore]').val();
+        var number = $('input[name=number]').val();
+
+        if (!name) {
+            layer.msg('請輸入有效的名稱');
+            return false;
+        } else if (name.length < 3 && name.length > 10) {
+            layer.msg('請輸入3-10字元的優惠名稱');
+            return false;
+        }
+        if (!deduMoney || deduMoney <= 0) {
+            layer.msg('請輸入有效的抵扣金額');
+            return false;
+        }
+        if (!score || score < 0) {
+            layer.msg('請輸入有效的換取積分');
+            return false;
+        }
+        if (!begDate) {
+            layer.msg('請輸入有效的抵扣開始時間');
+            return false;
+        }
+        if (!endDate) {
+            layer.msg('請輸入有效的抵扣結束時間');
+            return false;
+        }
+
+        layer.load(1);
+
+        $.ajax({
+            url: url,
+            type: "post",
+            dataType: "json",
+            data: new FormData($('#form')[0]),
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                layer.closeAll('loading');
+                console.log(data);
+                if (data.status == 111) {
+                    layer.msg(data.msg);
+                    setTimeout(function () {
+                        parent.location.reload(); // 父頁面刷新
+                        var index = parent.layer.getFrameIndex(window.name); //獲取窗口索引
+                        parent.layer.close(index);
+                    }, 500)
+                } else {
+                    layer.msg(data.msg);
+                }
+            }
+        })
+
+
+
+
+
+
+    })
+</script>

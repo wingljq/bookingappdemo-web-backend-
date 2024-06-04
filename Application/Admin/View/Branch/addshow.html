@@ -1,0 +1,97 @@
+<include file="Common/head" />
+
+<body>
+
+
+
+    <div style="width: 60%;margin: auto; padding: 60px 0; ">
+        <form id="form">
+
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Branch name </div>
+                <div class="adminInputLine"><input type="text" name="name" value="{$info.name}" /></div>
+
+            </div>
+
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Address</div>
+                <div class="adminInputLine"><input type="text" name="address" value="{$info.address}" /></div>
+
+            </div>
+
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Address(EN)</div>
+                <div class="adminInputLine"><input type="text" name="addressEN" value="{$info.addressEN}" /></div>
+
+            </div>
+
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Branch Phone</div>
+                <div class="adminInputLine"><input type="text" name="branchPhone" value="{$info.branchPhone}" /></div>
+
+            </div>
+
+            <div class="adminInputGroup" style="text-align: center;">
+                <span class="saveDoBtn">save</span>
+
+            </div>
+
+
+
+        </form>
+
+    </div>
+
+
+</body>
+
+</html>
+
+
+<script type="text/javascript">
+    var id = "{$info.branchId}";
+    if (id == false) {
+        var url = "{:U('save')}?do=add";
+    } else {
+        var url = "{:U('save')}?do=edit&id=" + id;
+    }
+
+
+    $('.saveDoBtn').click(function () {
+
+
+
+
+        $.ajax({
+            url: url,
+            type: "post",
+            dataType: "json",
+            data: new FormData($('#form')[0]),
+            processData: false,
+            contentType: false,
+            success: function (data) {
+
+                if (data.status == 111) {
+                    layer.msg(data.msg);
+                    setTimeout(function () {
+                        parent.location.reload(); // 父頁面刷新
+                        var index = parent.layer.getFrameIndex(window.name); //獲取窗口索引
+                        parent.layer.close(index);
+                    }, 500)
+                } else {
+                    layer.msg(data.msg);
+                }
+
+
+
+
+            }
+        })
+
+
+
+
+
+
+    })
+</script>

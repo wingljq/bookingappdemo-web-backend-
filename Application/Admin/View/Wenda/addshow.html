@@ -1,0 +1,134 @@
+<include file="Common/head" />
+	<body>
+
+	 
+		
+		<div  style="width: 60%;margin: auto; padding: 60px 0; ">
+		<form  id="form">
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Question</div>
+				<div  class="adminInputLine"><input type="text"  name="question" value="{$info.question}"  /></div>
+
+			</div>
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Answer</div>
+				<div  class="adminInputLine"><input type="text"  name="answer" value="{$info.answer}"  /></div>
+
+			</div>
+
+
+			
+
+
+
+
+			<div  class="adminInputGroup"   style="margin-top: 10px">
+				<div  class="adminInputTitle">Language</div>
+				<div  class="adminInputLine2" style="margin-top: 7px" >
+
+
+					<label >
+						<input type="radio" name="lang" class="demoHidden" value="1" <if condition="$info['lang'] eq 1">checked="true"</if>   >
+						<span class="radioInput"></span><span class="radioName" >Chinses</span> 
+					</label>
+					<label style="margin-left: 30px" >
+						<input type="radio" name="lang" class="demoHidden" value="2" <if condition="$info['lang'] eq 2">checked="true"</if> >
+						<span class="radioInput"></span>
+
+						<span  class="radioName" >English</span> 
+					</label>
+
+
+					
+
+				</div>
+
+			</div>
+
+
+
+			<div  class="adminInputGroup"  style="text-align: center;">
+				<span class="saveDoBtn">save</span>
+			
+			</div>
+
+
+
+		</form>
+
+		</div>
+		
+		
+	</body>
+</html>
+
+
+<script type="text/javascript">
+
+var id="{$info.id}";
+if(id==false){
+   var url="{:U('save')}?do=add";
+}else{
+   var url="{:U('save')}?do=edit&id="+id;
+}
+
+
+$('.saveDoBtn').click(function(){
+
+	var question=$('input[name=question]').val();
+	var answer=$('input[name=answer]').val();
+
+	
+	
+	if(!question){
+		layer.msg(' Please enter a valid question');
+		return false;
+	}
+	if(!answer){
+		layer.msg('Please enter a valid answer');
+		return false;
+	}
+
+	
+
+
+
+	layer.load(1);
+	$.ajax({
+			url:url,
+			type:"post",
+			dataType:"json",
+			data:new FormData($('#form')[0]),
+	    	processData:false,
+	    	contentType:false,
+			success:function(data){
+				 layer.closeAll('loading');
+				if(data.status==111){
+                        layer.msg(data.msg);
+                        setTimeout(function(){
+                         parent.location.reload(); // 父頁面刷新
+                         var index = parent.layer.getFrameIndex(window.name); //獲取窗口索引
+                            parent.layer.close(index);
+                        },500)
+                    }else{
+                        layer.msg(data.msg);
+                	}
+
+
+
+				
+			}
+		})
+	
+	
+	
+
+	
+	
+})
+
+</script>
+
+

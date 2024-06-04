@@ -1,0 +1,381 @@
+<include file="Common/head" />
+
+
+<body>
+
+
+    <!-- mainbox_ban -->
+    <div class="mianbox_ban" id="app" v-cloak>
+
+
+
+        <div class="mainbox_content">
+
+
+            <div class="tableTit"><span class="listTitle">Integral</span>
+
+
+                <span @click="saveSysInfo()" class="adminDoBtn" style="float: right; margin: 7px 2px 0 0 ; ">save</span>
+
+
+
+            </div>
+
+            <div style="margin-top: 25px;">
+
+                <table style="width: 100%;text-align: center;">
+                    <tr style="font-size: 25px">
+                        <td width="5%"></td>
+                        <td>Send out Amount</td>
+                        <td>Receive Amount</td>
+                        <td>Transform rate</td>
+                        <td width="10%"></td>
+                    </tr>
+
+                    <tr style="font-size: 30px;">
+                        <td></td>
+                        <td style="padding-top: 25px">{{getNum}}</td>
+                        <td>{{outNum}}</td>
+                        <td>{{changePer}}</td>
+                        <td> </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="5" style="text-align: right;">
+                            <!-- <input type="date" class="adminDoBtn"  style="outline: none;border: none;width: 180px;font-size: 12px;margin-right: 3%; margin-top: -15px "  name="">  --></td>
+                    </tr>
+
+                </table>
+
+
+
+                <div style="margin-left: 3%">
+                    <div>Integral rule</div>
+                    <div> Per consumption <input type="text" name="" v-model="scoreOneMoney" style="border: none;outline: none;background: #e0e1e5;text-align: center;width: 47px;border-radius: 30px "> HKD Available <input type="text" name="" v-model="getScoreNum"
+                            style="border: none;outline: none;background: #e0e1e5;text-align: center;width: 47px;border-radius: 30px "> Integral</div>
+                    <div> The recommended person will get <input type="text" name="" v-model="diviScorePer" style="border: none;outline: none;background: #e0e1e5;text-align: center;width: 47px;border-radius: 30px "> percent points</div>
+                    <div>0-100積分=>Genral,101-300積分=>Gold,301-600積分=>Platium,601-1000積分=>Diamond,>1000積分=>Super</div>
+                </div>
+
+
+
+
+            </div>
+
+
+
+
+            <section>
+
+
+                <div class="">
+
+                    <table class="am-table">
+                        <thead>
+                            <tr>
+                                <td style="text-align: center;">Integral record </td>
+                                <td colspan="10"></td>
+                            </tr>
+                            <tr>
+                                <th width="28%">Name</th>
+                                <th>Earn points</th>
+
+                                <th>Spend points</th>
+
+                                <th>Time</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody id="tabledatas">
+                            <tr v-for="(item,index)  of  list">
+
+                                <td>{{item.name}}</td>
+
+                                <td>{{item.getNum}}</td>
+                                <td>{{item.outNum}}</td>
+
+                                <td>{{item.addDate}}</td>
+
+
+
+                            </tr>
+
+                            <tr>
+                                <td colspan="13">
+                                    <el-pagination background layout="prev, pager, next" :total="total" :page-size="page_size" @current-change="change_page">
+                                    </el-pagination>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+            </section>
+        </div>
+
+
+
+    </div>
+
+    <!-- mainbox_ban end -->
+
+
+
+
+</body>
+
+</html>
+
+
+
+
+<script type="text/javascript">
+    new Vue({
+        el: '#app',
+        data: {
+            total: 0, // 記錄總條數
+            list: [],
+            page_size: 20,
+            search_name: '',
+            typeList: [],
+            tagsMoren: "選擇標簽",
+            scoreOneMoney: '',
+            getScoreNum: '',
+            diviScorePer: '',
+            getNum: 0,
+            outNum: 0,
+            changePer: 0,
+
+
+        },
+
+        created: function() {
+
+            this.pageLoad(1);
+        },
+        methods: {
+            pageLoad: function(page, name) {
+
+                name = this.search_name;
+                if (name == undefined) {
+                    name = '';
+                }
+
+                var that = this;
+                $.ajax({
+                    url: "{:U('index_data')}?pagesize=" + this.page_size + "&page=" + page + "&name=" + name,
+                    dataType: "json",
+                    type: "get",
+                    success: function(res) {
+
+                        that.list = res.data;
+                        console.log(res.data);
+
+
+                        that.total = res.count;
+                        that.scoreOneMoney = res.systemInfo.scoreOneMoney;
+                        that.getScoreNum = res.systemInfo.getScoreNum;
+                        that.diviScorePer = res.systemInfo.diviScorePer;
+                        that.getNum = res.getNum;
+                        that.outNum = res.outNum;
+                        that.changePer = res.changePer;
+
+
+                    }
+                })
+            },
+
+
+            edit: function(title, url, w, h) {
+                layer_show(title, url, w, h);
+            },
+
+            del: function(id, xh) {
+                var that = this;
+                layer.confirm('確認要刪除嗎？', function(index) {
+                    $.ajax({
+                        type: 'get',
+                        url: '{:U("del")}?id=' + id,
+                        dataType: 'json',
+                        success: function(data) {
+                            layer.msg(data.msg);
+                            if (data.status == 111) {
+                                that.list.splice(xh, 1);
+                            }
+                        },
+
+                    });
+                });
+
+            },
+            addshow: function(title, url, w, h) {
+                layer_show(title, url, w, h);
+            },
+
+            change_page: function(val) {
+                this.pageLoad(val)
+            },
+            search: function() {
+                this.pageLoad(1, this.search_name);
+
+            },
+            outData: function() {
+                layer.msg('exporting...');
+                location.href = "{:U('excel/outShop')}";
+
+            },
+
+            changeSelect: function(e, uid) {
+                var dataType = type = e.target.value;
+
+                if (dataType == '選擇標簽') {
+                    return false;
+                }
+
+                console.log(dataType, uid);
+                var that = this;
+                $.ajax({
+                    url: "{:U('setTags')}",
+                    dataType: "json",
+                    type: "post",
+                    data: {
+                        uid: uid,
+                        name: dataType
+                    },
+                    success: function(res) {
+                        layer.msg(res.msg);
+                        that.pageLoad(1);
+                    }
+                })
+
+            },
+            saveSysInfo: function() {
+                var that = this;
+                $.ajax({
+                    url: "{:U('score/saveSysInfo')}",
+                    data: {
+                        scoreOneMoney: that.scoreOneMoney,
+                        getScoreNum: that.getScoreNum,
+                        diviScorePer: that.diviScorePer,
+                    },
+                    dataType: "json",
+                    success: function(res) {
+                        layer.msg(res.msg);
+                    }
+                })
+            },
+
+            tagsChangeSelect(e) {
+
+                layer.load(1);
+
+
+                var that = this;
+                console.log(e.target.value)
+                var dataType = type = e.target.value;
+                if (dataType == '選擇標簽') {
+                    return false;
+                }
+
+
+                var id_arr = [];
+                var arr = $('input[name=id]');
+                for (i = 0; i < arr.length; i++) {
+                    if (arr[i].checked) {
+                        id_arr.push(arr[i].value);
+                    }
+                }
+                var id_str = id_arr.join(',');
+
+                if (id_str == false) {
+                    layer.msg('請選擇用護');
+                    return false;
+                }
+
+
+                $.ajax({
+                    url: "{:U('piliangSetTags')}",
+                    dataType: "json",
+                    type: "post",
+                    data: {
+                        id: id_str,
+                        name: dataType
+                    },
+                    success: function(res) {
+                        layer.closeAll('loading');
+
+                        layer.msg(res.msg);
+                        that.pageLoad(1);
+                    }
+                })
+
+
+
+
+
+
+
+            },
+
+
+
+        }
+
+    })
+
+
+
+    $('#delall').click(function() {
+        var id_arr = [];
+        var arr = $('input[name=id]');
+        for (i = 0; i < arr.length; i++) {
+            if (arr[i].checked) {
+                id_arr.push(arr[i].value);
+            }
+        }
+        var id_str = id_arr.join(',');
+
+        if (id_str == false) {
+            layer.msg('請選擇要刪除的項');
+            return false;
+        }
+
+        layer.confirm('確認要刪除嗎？',
+            function(index) {
+
+                $.ajax({
+                    url: "{:U('del')}" + "?id=" + id_str,
+                    type: "get",
+                    dataType: "json",
+                    success: function(res) {
+                        layer.msg(res.msg);
+                        if (res.status == 111) {
+                            setTimeout(function() {
+                                    location.reload();
+                                },
+                                900);
+                        }
+                    }
+                })
+
+            })
+
+    })
+
+
+    $("#checkall").click(function() {
+        $('[name=id]:checkbox').attr('checked', this.checked); //checked為true時為默認顯示的狀態  
+    });
+
+
+    $("#checkrev").click(function() {
+        //實現反選功能 
+        $('[name=id]:checkbox').each(function() {
+            this.checked = !this.checked;
+        });
+    });
+</script>

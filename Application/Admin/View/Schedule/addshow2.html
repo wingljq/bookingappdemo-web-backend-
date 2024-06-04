@@ -1,0 +1,104 @@
+<include file="Common/head" />
+<script type="text/javascript">
+	// Retrieve the 'id' parameter from the URL
+	var urlParams = new URLSearchParams(window.location.search);
+	var id = urlParams.get('id');
+
+	var url = "{:U('editPackage')}?do=edit&id=" + id;
+
+    // Rest of the JavaScript code
+</script>
+
+<body>
+
+	<div style="width: 60%;margin: auto; padding: 60px 0; ">
+		<form id="form">
+
+
+			<div class="adminInputGroup">
+				<div class="adminInputTitle">Package Record Detail</div>
+				<div class="adminInputTitle">Package Name:</div>
+				<div class="adminInputLine"><input type="text" name="name" value="{$info.name}" /></div>
+				<div class="adminInputTitle">繁:</div>
+				<div class="adminInputLine"><input type="text" name="twName" value="{$info.twName}" /></div>
+				<div class="adminInputTitle">简:</div>
+				<div class="adminInputLine"><input type="text" name="cnName" value="{$info.cnName}" /></div>
+				<div class="adminInputTitle">Package Goods Id:</div>
+				<div class="adminInputLine"><input type="text" name="goodsId" value="{$info.goodsId}" /></div>
+				<div class="adminInputTitle">Client Name:</div>
+				<div class="adminInputLine"><input type="text" name="userName" value="{$info.userName}" /></div>
+				<div class="adminInputTitle">Client Uid:</div>
+				<div class="adminInputLine"><input type="text" name="uid" value="{$info.uid}" /></div>
+
+
+
+			</div>
+			<div class="adminInputGroup">
+				<div class="adminInputTitle">Number of Time</div>
+				<div class="adminInputLine"><input type="text" name="numberOfTime" value="{$info.numberOfTime}"
+						placeholder="{$info.numberOfTime'}" /></div>
+			</div>
+
+
+			<div class="adminInputGroup" style="text-align: center;">
+				<span class="saveDoBtn">save</span>
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>
+
+
+<script type="text/javascript">
+
+	var id = "{$info.id}";
+
+	if (id) {
+
+		var url = "{:U('editPackage')}?do=edit&id=" + id;
+
+	} else {
+		var url = "{:U('editPackage')}?do=add";
+	}
+
+
+
+	$('.saveDoBtn').click(function () {
+		//alert(url)
+
+
+		$.ajax({
+			url: url,
+			type: "post",
+			dataType: "json",
+			data: new FormData($('#form')[0]),
+			processData: false,
+			contentType: false,
+			success: function (data) {
+
+				if (data.status == 111 || data.status == 112) {
+					layer.msg(data.msg);
+					setTimeout(function () {
+						parent.location.reload(); // 父頁面刷新
+						// var index = parent.layer.getFrameIndex(window.name); //獲取窗口索引
+						// parent.layer.close(index);
+					}, 500)
+				} else {
+					layer.msg(data.msg);
+				}
+
+
+
+
+			}
+		})
+
+
+
+
+
+
+	})
+
+</script>

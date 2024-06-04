@@ -1,0 +1,105 @@
+<include file="Common/header" />
+<!-- Start Page Banner -->
+<if condition="$_SESSION['uid']">
+    <div class="page-banner">
+        <div class="row">
+            <div class="col-lg-12 col-md-12" style="padding: 0 0 0 0;">
+                <div class="home-slides owl-carousel owl-theme">
+                    <volist name="pagebanner" id="vo">
+                        <div class="page-banner-area" style="background-image:url({$vo.image});
+                            background-position: center center;
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                            padding-top: 150px;
+                            padding-bottom: 150px;
+                            position: relative;
+                            z-index: 1;
+                        ">
+                        <div class="container">
+                            <div class="page-banner-content">
+                                <h2>{:L('coupon')}</h2>
+                                <ul>
+                                    <li>
+                                        <a href="{:U('/')}" style="color: #F4EC00;">{:L('home')}</a>
+                                    </li>
+                                    <li><i class="fa fa-chevron-right" style="color: #ffff"></i></li>
+                                    <li style="color: #ffff">{:L('coupon')}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        </div>
+                    </volist>
+                    </div>
+            </div>
+        </div>
+    </div>
+<!-- End Page Banner -->
+
+<!-- Start Wishlist Area -->
+<section class="wishlist-area ptb-100">
+    <div class="container" id="app3">
+        <div class="wishlist-table table-responsive" style="
+        box-shadow: 0px 5px 32px 0px grey;border-radius: 15px;
+    ">
+            <div class="coupon-box" style="
+            padding: 30px;
+            display: flex;
+            align-content: center;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;border-radius: 15px;">
+                <i style="color: white;margin-right: 5%;font-size: 40px;" class='fa fa-ticket' aria-hidden="true"></i>
+                <h2 style="color: white;">{:L('coupon')}</h2>
+            </div>
+
+            <table class="table table-bordered">
+                <tbody>
+                    <volist name="coupon" id="vo" class="row flex-direction" style="margin: 50px 50px;">
+                        <div class='col-xs-6 col-sm-6 col-md-3' style='    padding: 20px;
+                       box-shadow: 1px 1px 12px -7px grey;'>
+                            <image style="width:100% " src="{$vo.image}" />
+                            <div class='d-flex justify-content-around align-items-center' style='padding:0;display: flex;flex-direction: column;'>
+                                <span style='color: black'>{$vo.name}</span>
+                                <a class="blink" style='margin-top: 5%' href="#" @click="getCoupon('{$vo.id}')">馬上領取</a>
+                            </div>
+                        </div>
+                    </volist> 
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<else/>
+<div style="height:400px;display: flex;flex-direction: column;align-items: center;align-content: center;justify-content: center;font-size:40px"> 請登入會員</div>
+</if>
+<script src="__PUBLIC__/js/layer.js"></script>
+
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+    new Vue({
+        el: '#app3',
+        data: {},
+        created: function() {},
+        methods: {
+            getCoupon: function(id) {
+                console.log('click');
+                $.ajax({
+                    url: "{:U('user/getyhcard')}?yhcardId=" + id,
+                    data: {},
+                    type: "get",
+                    dataType: "json",
+                    success: function(res) {
+                        if (res.status == 111) {
+                            layer.msg('Success');
+                        } else {
+                            layer.msg(res.message);
+                        }
+                    }
+                })
+            }
+        }
+    })
+})
+</script>
+<include file="Common/footer" />

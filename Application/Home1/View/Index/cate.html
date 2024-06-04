@@ -1,0 +1,263 @@
+<include file="Common/header" />
+<script>
+    $(document).ready(function () {
+        var pathname = window.location.pathname;
+
+        for (i = 1; i < document.getElementById('type').childNodes.length - 1; i++) {
+            var x = document.getElementById('type').childNodes[i].id.replace('type', '');
+            const regex = '/id=' + x + '/g';
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const product = urlParams.get('id')
+            if (product == x) {
+                document.getElementById('type').childNodes[i].classList.add("currentpage");
+            } else if (product == null) {
+                document.getElementById('all').classList.add("currentpage");
+            }
+        }
+    });
+</script>
+<style>
+    .currentpage {
+        height: 67px;
+        /* UI Properties */
+        text-align: left;
+        text-decoration: underline;
+        font: normal normal normal 48px/58px Cubic 11;
+        letter-spacing: 0px;
+        color: #F04E96;
+        opacity: 1;
+    }
+    
+    .nav-link{
+        text-decoration: none;
+        color:rgb(107, 107, 237);
+    }
+    .pageList div a:visited{
+        color:black
+    }
+    
+</style>
+<div class="page-banner">
+    <div class="row">
+        <div class="col-lg-12 col-md-12" style="padding: 0 0 0 0;">
+            <div class="home-slides owl-carousel owl-theme">
+                <volist name="pagebanner" id="vo">
+                    <div class="page-banner-area" style="background-image:url({$vo.image});
+                        background-position: center center;
+                        background-size: cover;
+                        background-repeat: no-repeat;
+                        padding-top: 150px;
+                        padding-bottom: 150px;
+                        position: relative;
+                        z-index: 1;
+                    ">
+                    <div class="container">
+                        <div class="page-banner-content">
+                            <h2>{:L('Product')}</h2>
+                            <ul>
+                                <li>
+                                    <a href="{:U('/')}" style="color: #F4EC00;">{:L('home')}</a>
+                                </li>
+                                <li><i class="fa fa-chevron-right" style="color: #ffff"></i></li>
+                                <li style="color: #ffff">{:L('Product')}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                </volist>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- End Page Banner -->
+
+<!-- Start Shop Area -->
+<section class="shop-area ptb-100">
+    <div class="container" id='app'>
+            
+        <div class="row">
+            <div class="col-lg-3 col-md-12" style="    padding-bottom: 15%;    flex: 0 0 25%;">
+                <div class="shop-category">
+                    <div class="category-title">
+                        <a href="#">{:L('cate')}</a>
+                    </div>
+
+                    <div class="shop-category-menu">
+                        <ul class="category-list">
+                            <volist name="cate" id="vo">
+                                <li class="">
+                                    <a href="{:U('index/cate')}?id={$vo.cateId}" class="nav-link">
+                                        {$vo.name}
+                                </a>
+                                </li>
+                            </volist>
+                           
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="" style="display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;" >
+                <div v-for="(item, key) in goods" class="shop-item-box" style="flex: 45%;margin:20px">
+                    <div class="row align-items-center">
+                        <div class="col-lg col-sm">
+                            <a :href="'{:U('index/detail')}?id='+item.id">
+                                <div class="shop-image">
+                                    <img style="width:200px;height:200px" :src="item.coverImg" alt="image">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-5 col-sm-5">
+                            <div class="">
+                                <ul class="shop-btn-list">
+
+                                    <li>
+                                        <a @click="addCart(item.id)">
+                                            <i class="flaticon-shopping-cart"></i>{:L('AddToCart')}
+                                        </a>
+
+                                    </li>
+                                    <li>
+                                        <a class="item.id" @click="remove(item.id)">{:L('AddToWishlist')}</a>
+                                    </li>
+                                    <li>
+                                        <span>$ {{item.price}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+
+                        </div>
+                        </a>
+                    </div>
+                    <a :href="'{:U('index/detail')}?id='+item.id">
+                        <div class="shop-content">
+                            <h3 style="text-align: center;">{{item.name}}</h3>
+                    </a>
+
+                </div>
+            </div>
+            <tr>
+                <td>
+                    <div style="width:100%;align-items: center;display: flex;justify-content: center;">
+                        <div v-for="(item, key) in totalpage" class='pageList'>
+                            <div v-if="key == 0">
+                            </div>
+                            <div v-else-if="currentPage < 4">
+                                <div v-if="key < 7">
+                                    <a :id="'page'+key" href="#" :class="{ }" @click="change_page(key)" style="margin: 10px;">{{key}}</a>
+                                </div>
+                            </div>
+
+                            <div v-else-if="(currentPage<4)?currentPage:currentPage-4 < key">
+                                <div v-if="(currentPage<4)?currentPage:currentPage+4 > key">
+                                    <a :id="'page'+key" href="#" :class="{  }" @click="change_page(key)" style="margin: 10px;">{{key}}</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+        </div>
+        </td>
+        </tr>
+    </div>
+    </div>
+    </div>
+</section>
+<!-- End Shop Area -->
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        new Vue({
+            el: '#app',
+            data: {
+                goodsId: '',
+                total: 0,
+                page_size: 8,
+                goods: {},
+                totalpage: 0,
+                cateId: 0,
+                currentPage: 1,
+            },
+            created: function () {
+                this.pageLoad(1);
+            },
+            methods: {
+                pageLoad: function (page) {
+                    var that = this;
+                    that.currentPage = page;
+                    
+                    const queryString = window.location.search;
+                    const urlParams = new URLSearchParams(queryString);
+                    that.cateId = urlParams.get('id');
+                    if (urlParams.get('id')){
+                        urlStr = "{:U('goods/getAllGoods')}?pagesize=" + this.page_size + "&page=" + page + '&cateId=' + urlParams.get('id')
+                    }else{
+                        urlStr = "{:U('goods/getAllGoods')}?pagesize=" + this.page_size + "&page=" + page
+                    }
+                    $.ajax({
+                        url: urlStr,
+                        data: {
+                            status: 0
+                        },
+                        type: "get",
+                        dataType: "json",
+                        success: function (res) {
+                            that.goods = res.data;
+                            that.total = res.count;
+                            if ((that.total / that.page_size) % 1 != 0) {
+                                that.totalpage = that.total / that.page_size + 1 - (that.total / that.page_size) % 1
+                            } else {
+                                that.totalpage = that.total / that.page_size
+                            }
+                        }
+                    })
+                },
+                change_page: function (val) {
+                    this.pageLoad(val)
+                    var id = 'page'+val
+                    document.getElementById(id).classList.add("active");
+                },
+                addCart: function (id) {
+                    $.ajax({
+                        url: "{:U('cart/addCart')}",
+                        type: 'post',
+                        data: {
+                            goodsId: id,
+                        },
+                        dataType: 'json',
+                        success: function (json) {
+                            if (json.code == '0') {
+                                layer.msg("{:L('success')}");
+                            } else if (json.code == '2001') {
+                                layer.msg("{:L('pleaseLogin')}");
+                            }
+                        }
+                    })
+                },
+                remove: function (id) {
+                    $.ajax({
+                        url: "{:U('index/addfavorite')}",
+                        type: 'post',
+                        data: {
+                            goodsId: id,
+                        },
+                        dataType: 'json',
+                        success: function (json) {
+                            if (json.code == '0') {
+                                layer.msg('請先登入');
+                            } else {
+                                $("." + id).text(json.message);
+                                layer.msg('sucess');
+                            }
+                        },
+                    })
+                },
+            }
+        })
+
+    })
+</script>
+<include file="Common/footer" />

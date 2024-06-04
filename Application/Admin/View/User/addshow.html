@@ -1,0 +1,109 @@
+<include file="Common/head" />
+
+<body>
+    <div style="width: 60%;margin: auto; padding: 60px 0; ">
+        <form id="form">
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Name name</div>
+                <div class="adminInputLine"><input type="text" name="name" value="{$info.name}" /></div>
+            </div>
+            <!-- <div class="adminInputGroup">
+                <div class="adminInputTitle">Head picture </div>
+                <div class="adminInputLine" style="position: relative;height: 55px">
+                    <span class="addPicBtn"><i id="icon-shangchuan1" class="iconfont icon-shangchuan1"></i>&nbsp;Select Picture </span>
+                    <input class="addPicInput" id="id_myfile" type="file" placeholder="Select Picture " name="headImg" />
+                    <img style="width: 70px;margin-left: 100px;position: absolute;z-index: 100;" id="id_img" src="{$info.headImg}">
+                    <div style="clear: both;"></div>
+                </div>
+            </div> -->
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Email</div>
+                <div class="adminInputLine"><input type="text" name="email" value="{$info.email}" /></div>
+            </div>
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Password</div>
+                <div class="adminInputLine"><input type="password" name="password" value="" /></div>
+            </div>
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Phone</div>
+                <div class="adminInputLine"><input type="text" name="tel" value="{$info.tel}" /></div>
+            </div>
+            <div class="adminInputGroup" style="margin-top: 10px">
+                <div class="adminInputTitle">Gender</div>
+                <div class="adminInputLine2" style="margin-top: 7px">
+                    <label>
+						<input type="radio" name="sex" class="demoHidden" value="1" <if condition="$info['sex'] eq 1">checked="true"</if>   >
+						<span class="radioInput"></span><span class="radioName" >male</span> 
+					</label>
+                    <label style="margin-left: 30px">
+						<input type="radio" name="sex" class="demoHidden" value="2" <if condition="$info['sex'] eq 2">checked="true"</if> >
+						<span class="radioInput"></span>
+						<span  class="radioName" >female</span> 
+					</label>
+                </div>
+            </div>
+            <div class="adminInputGroup" style="text-align: center;">
+                <span class="saveDoBtn">save</span>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript">
+    var id = "{$info.uid}";
+    if (id == false) {
+        var url = "{:U('save')}?do=add";
+    } else {
+        var url = "{:U('save')}?do=edit&id=" + id;
+    }
+    $('.saveDoBtn').click(function() {
+        var name = $('input[name=name]').val();
+        var email = $('input[name=email]').val();
+        var password = $('input[name=password]').val();
+        var area = $('input[name=area]').val();
+        var sex = $('input[name=sex]').val();
+        if (!name) {
+            layer.msg(' Please enter a valid name name ');
+            return false;
+        }
+        var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+        if (!reg.test(email)) {
+            layer.msg(' Please enter a valid email ');
+            return false;
+        }
+        if (password) {
+            var regpwd = /^.{6,20}$/; //工作密码必须是8位数字
+            if (!regpwd.test(password)) {
+                layer.msg(" Please enter a valid password with more than 6 digits ");
+                return false;
+            }
+        }
+        if (!sex) {
+            layer.msg(' Please enter a valid gender ');
+            return false;
+        }
+        layer.load(1);
+        $.ajax({
+            url: url,
+            type: "post",
+            dataType: "json",
+            data: new FormData($('#form')[0]),
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                layer.closeAll('loading');
+                if (data.status == 111) {
+                    layer.msg(data.msg);
+                    setTimeout(function() {
+                        parent.location.reload(); // 父頁面刷新
+                        var index = parent.layer.getFrameIndex(window.name); //獲取窗口索引
+                        parent.layer.close(index);
+                    }, 500)
+                } else {
+                    layer.msg(data.msg);
+                }
+            }
+        })
+    })
+</script>

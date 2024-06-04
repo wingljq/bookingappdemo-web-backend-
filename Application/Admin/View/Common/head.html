@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" class="js cssanimations">
+
+<head>
+    <link rel="icon" href="__PUBLIC__/image/favicon.ico" type="image/png" sizes="16x16">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin &amp; Security Setting</title>
+    <link rel="stylesheet" href="__PUBLIC__/css/amazeui.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/adminPage.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/iconfont.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/layui.css">
+    <link href="__PUBLIC__/css/adminVueindex.css" type="text/css" rel="stylesheet" />
+
+    <script src="__PUBLIC__/js/jquery.min.js"></script>
+    <script src="__PUBLIC__/js/layer.js"></script>
+    <script src="__PUBLIC__/js/vue.js?v=1.0"></script>
+    <script src="__PUBLIC__/js/common.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/element-ui.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<script>
+    function layer_show(title, url, w, h) {
+
+        layer.open({
+            type: 2,
+            //area: [w + "px", h + "px"],
+            area: ["80%", "90%"],
+
+            fixed: false, //不固定
+            maxmin: false,
+            content: url,
+            title: title
+        });
+    }
+
+    $(function() {
+        var noimgPath = $('#id_img').attr('src');
+        if (!noimgPath) {
+            $('#id_img').attr('src', "__PUBLIC__/image/addPic.png");
+        }
+
+        $('#id_myfile').change(function() {
+            // 先获取用户上传的文件对象
+            let fileObj = this.files[0];
+            // 生成一个文件读取的内置对象
+            let fileReader = new FileReader();
+            // 将文件对象传递给内置对象
+            fileReader.readAsDataURL(fileObj); //这是一个异步执行的过程，所以需要onload回调函数执行读取数据后的操作
+            // 将读取出文件对象替换到img标签
+            fileReader.onload = function() { // 等待文件阅读器读取完毕再渲染图片
+                $('#id_img').attr('src', fileReader.result)
+            }
+
+        })
+
+        $('#id_myfile2').change(function() {
+            // 先获取用户上传的文件对象
+            let fileObj = this.files[0];
+            // 生成一个文件读取的内置对象
+            let fileReader = new FileReader();
+            // 将文件对象传递给内置对象
+            fileReader.readAsDataURL(fileObj); //这是一个异步执行的过程，所以需要onload回调函数执行读取数据后的操作
+            // 将读取出文件对象替换到img标签
+            fileReader.onload = function() { // 等待文件阅读器读取完毕再渲染图片
+                $('#video').attr('src', fileReader.result)
+            }
+
+        })
+    })
+</script>

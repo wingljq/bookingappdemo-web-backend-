@@ -1,0 +1,184 @@
+<include file="Common/header" />
+<style>
+    @media only screen and (max-width: 767px) {
+
+        .table-bordered td {
+            border: none;
+        }
+
+        tr {
+            display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 80vw;
+    align-items: flex-start;
+    justify-content: space-between;
+        }
+
+        .product-btn {
+            border-bottom: 1px solid #dee2e6!Important;
+        }
+        .wishlist-table table tbody tr td.product-thumbnail a img{
+            display: none;
+        }
+        .wishlist-table table tbody tr td.product-remove .remove {
+            top: 21px;
+    left: 274px;
+}
+.wishlist-table table tbody tr td
+{padding: 4px 81px 12px 15px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: center;}
+    
+    }
+
+</style>
+<!-- Start Page Banner -->
+<div class="page-banner">
+    <div class="row">
+        <div class="col-lg-12 col-md-12" style="padding: 0 0 0 0;">
+            <div class="home-slides owl-carousel owl-theme">
+                <volist name="pagebanner" id="vo">
+                    <div class="page-banner-area" style="background-image:url({$vo.image});
+                        background-position: center center;
+                        background-size: cover;
+                        background-repeat: no-repeat;
+                        padding-top: 150px;
+                        padding-bottom: 150px;
+                        position: relative;
+                        z-index: 1;
+                    ">
+                    <div class="container">
+                        <div class="page-banner-content">
+                            <h2>{:L('WishList')}</h2>
+                            <ul>
+                                <li>
+                                    <a href="{:U('/')}" style="color: #F4EC00;">{:L('home')}</a>
+                                </li>
+                                <li><i class="fa fa-chevron-right" style="color: #ffff"></i></li>
+                                <li style="color: #ffff">{:L('WishList')}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                </volist>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- End Page Banner -->
+
+<!-- Start Wishlist Area -->
+<section class="wishlist-area ptb-100">
+    <div class="container" id="app">
+        <div class="wishlist-table table-responsive" style="
+        box-shadow: 0px 5px 32px 0px grey;border-radius: 15px;
+    ">
+            <div class="wishlist-title orderlistT" style="
+            display: flex;
+            align-content: center;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;border-radius: 15px;">
+                <i style="color: white;margin-right: 5%;font-size: 26px;" class='bx bx-collection'></i>
+                <h2 style="color: white;">{:L('MyWishlist')}</h2>
+            </div>
+
+            <table class="table table-bordered">
+                <tbody>
+                    <volist name="list" id="vo">
+                        <tr id="{$vo.id}">
+                            <td class="product-remove">
+                                <a @click="remove({$vo.id})" class="remove">
+                                    <i class='bx bx-x' style="    color:#646464;
+                                    background-color: transparent;
+                                    font-size: 46px;"></i>
+                                </a>
+                            </td>
+
+                            <td class="product-thumbnail">
+                                <a href="{:U('index/detail')}?id={$vo.id}">
+                                    <img style="max-width:300px;padding-left:30px" src="{$vo.coverImg}" alt="item">
+                                </a>
+                            </td>
+
+                            <td class="product-name">
+                                <a href="{:U('index/detail')}?id={$vo.id}">{$vo.name}</a>
+                            </td>
+
+                            <td class="product-price">
+                                <span class="unit-amount">${$vo.price}</span>
+                            </td>
+
+                            <td class="product-stock">
+                                <!-- <span class="stock">{:L('InStock')}</span> -->
+                            </td>
+
+                            <td class="product-btn">
+                                <a @click="addCart({$vo.id})" class="default-btn">
+                                    <i class="flaticon-shopping-cart" style="margin-right: 5%;"></i>{:L('AddToCart')}
+                                </a>
+                            </td>
+                        </tr>
+                    </volist>
+                    <if condition="!$list">
+                        <tr>
+                            <td><a href="{:U('index/index')}">{:L('noproduct')}</a></td>
+                        </tr>
+                    </if>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        new Vue({
+            el: '#app',
+            data: { goodsId: '', },
+            methods: {
+                addCart: function (id) {
+                    $.ajax({
+                        url: "{:U('index/addCart')}",
+                        type: 'post',
+                        data: {
+                            goodsId: id,
+                        },
+                        dataType: 'json',
+                        success: function (json) {
+                            if (json.code == '0') {
+                                layer.msg(json.message);
+                            } else {
+                                layer.msg(json.message);
+                            }
+
+                        },
+                    })
+
+                },
+
+                remove: function (id, index) {
+                    $.ajax({
+                        url: "{:U('index/addfavorite')}",
+                        type: 'post',
+                        data: { goodsId: id, },
+                        dataType: 'json',
+                        success: function (json) {
+                            if (json.code == '0') {
+                                layer.msg('請先登入');
+                            } else {
+                                $("#" + id).closest('tr').remove();
+                                layer.msg('sucess');
+                            }
+                        },
+                    })
+                },
+            }
+        })
+
+    })
+</script>
+<include file="Common/footer" />

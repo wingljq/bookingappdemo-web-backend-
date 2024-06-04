@@ -1,0 +1,228 @@
+<!-- Start Footer Area -->
+<section class="footer-area pt-100 pb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-sm-3">
+                <div class="single-footer-widget">
+                    <a href="{:U('index/index')}">
+                        <img src="__PUBLIC__/image/favicon.ico" alt="image" style="    height: 100px;">
+                    </a>
+
+                    <p>{$pcset.address1}</p>
+                    <br/>
+                    <div class="mapouter"><div class="gmap_canvas"><iframe width="213" height="164" id="gmap_canvas" src="{$pcset.googleMapHtml}" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://putlocker-is.org"></a><br><style>.mapouter{position:relative;text-align:right;height:164px;width:213px;}</style>embedgooglemap.net</a><style>.gmap_canvas {overflow:hidden;background:none!important;height:164px;width:213px;}</style></div></div>
+                    <br/><br/>
+                        <p>{:L('officehour')}: {$pcset.workTime}</p>
+
+                    <ul class="footer-social">
+                        <li>
+                            <a href="{$shop.facebook}" target="_blank">
+                                <i class='bx bxl-facebook'></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{$shop.instagram}" target="_blank">
+                                <i class='bx bxl-instagram'></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{$shop.wechat}" target="_blank">
+                                <i class="fa fa-weixin"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{$shop.pinterest}" target="_blank">
+                                <i class='bx bxl-pinterest-alt'></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{$shop.youtube}" target="_blank">
+                                <i class='bx bxl-youtube'></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- <div class="col-lg-3 col-sm-6">
+				<div class="single-footer-widget">
+					<h2>Recent Post</h2>
+
+					<div class="footer-post">
+						<article class="item">
+							<a href="#" class="thumb">
+								<span class="fullimage cover bg1" role="img"></span>
+							</a>
+							<div class="info">
+								<h4 class="title usmall">
+									<a href="#">Electronic Car Protect Air Pollution</a>
+								</h4>
+								<span>24 Dec 2020</span>
+							</div>
+						</article>
+
+						<article class="item">
+							<a href="#" class="thumb">
+								<span class="fullimage cover bg2" role="img"></span>
+							</a>
+							<div class="info">
+								<h4 class="title usmall">
+									<a href="#">Automotive Advancements to Look Forward</a>
+								</h4>
+								<span>25 Dec 2020</span>
+							</div>
+						</article>
+					</div>
+				</div>
+			</div> -->
+
+            <div class="col-lg-3 col-sm-3">
+                <div class="single-footer-widget pl-5">
+                    <h2>{:L('quicklinks')}</h2>
+
+                    <ul class="quick-links">
+                        <li>
+                            <i class='bx bxs-chevrons-right'></i>
+                            <a href="{:U('index/about')}">{:L('about')}</a>
+                        </li>
+                        <li>
+                            <i class='bx bxs-chevrons-right'></i>
+                            <a href="{:U('index/contact')}">{:L('contactus')}</a>
+                        </li>
+                        <li>
+                            <i class='bx bxs-chevrons-right'></i>
+                            <a href="{:U('index/cate')}">{:L('shop')}</a>
+                        </li>
+                        <!-- <li>
+							<i class='bx bxs-chevrons-right'></i>
+
+						</li> -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-3">
+                <div class="single-footer-widget">
+                    <h2>{:L('contactUs')}</h2>
+
+                    <ul class="footer-contact-info">
+                        <li><i class='bx bxs-phone'></i>
+                            <a href="tel:{$pcset.phone}">
+
+                                <span>{:L('tel')}</span>
+                            </a>
+                        </li>
+                        <li><i class="fa fa-whatsapp"></i>
+                            <a href="https://wa.me/852{$pcset.whatsapp}" target="_blank" title="WhatsApp">
+
+                                <span>WhatsApp</span>
+                            </a>
+                        </li>
+
+                        <li><i class='fab fa-instagram'></i>
+                            <a href="{$pcset.instagram}">
+
+                                <span>Instagram</span>
+                            </a>
+                        </li>
+                        <li><i class='fa fa-facebook'></i>
+                            <a href="{$pcset.facebook}">
+
+                                <span>Facebook</span>
+                            </a>
+                        </li>
+                        <!--   <li>
+                            <i class='bx bx-map'></i>
+                            <span>{:L('address')}</span> {$shop.address1}
+                        </li> -->
+                        <!-- <li>
+                            <i class='bx bxs-phone'></i>
+                            <a href="mailto:{$pcset.email}"><span>email</span>
+                            </a>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- End Footer Area -->
+
+<!-- Start Copy Right Area -->
+<div class="copyright-area">
+    <div class="container">
+        <div class="copyright-area-content">
+            <div class="row align-items-center">
+                <div class="col-lg-7 col-md-7">
+                    <p>Copyright &copy; 2022.{$pcset.companyName1}.</p>
+                </div>
+
+                <div class="col-lg-5 col-md-5">
+                    <ul>
+                        <li>
+                            <a href="{:U('index/tandc')}">{:L('tandc')}</a>
+                        </li>
+                        <li>
+                            <a href="{:U('index/privacy_policy')}">{:L('pp')}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Copy Right Area -->
+
+<!-- Start Go Top Area -->
+<div class="go-top">
+    <i class='bx bx-up-arrow-alt'></i>
+</div>
+<!-- End Go Top Area -->
+
+<!-- Jquery Slim JS -->
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/layer.js"></script>
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="__PUBLIC__/js/popper.min.js"></script>
+<!-- Bootstrap JS -->
+<!-- <script src="__PUBLIC__/js/bootstrap.min.js"></script> -->
+<!-- Meanmenu JS -->
+<script src="__PUBLIC__/js/jquery.meanmenu.js"></script>
+<!-- Owl Carousel JS -->
+<script src="__PUBLIC__/js/owl.carousel.min.js"></script>
+<!-- Magnific Popup JS -->
+<script src="__PUBLIC__/js/jquery.magnific-popup.min.js"></script>
+<!-- Imagelightbox JS -->
+<script src="__PUBLIC__/js/imagelightbox.min.js"></script>
+<!-- Odometer JS -->
+<script src="__PUBLIC__/js/odometer.min.js"></script>
+<!-- Jquery Nice Select JS -->
+<!-- <script src="__PUBLIC__/js/jquery.nice-select.min.js"></script> -->
+<!-- Jquery Appear JS -->
+<script src="__PUBLIC__/js/jquery.appear.min.js"></script>
+<!-- Ajaxchimp JS -->
+<script src="__PUBLIC__/js/jquery.ajaxchimp.min.js"></script>
+<!-- Form Validator JS -->
+<script src="__PUBLIC__/js/form-validator.min.js"></script>
+<!-- Contact JS -->
+<script src="__PUBLIC__/js/contact-form-script.js"></script>
+<!-- Wow JS -->
+<script src="__PUBLIC__/js/wow.min.js"></script>
+<!-- Custom JS -->
+<script src="__PUBLIC__/js/main.js"></script>
+
+<!-- new for ubeauty -->
+<script src="__PUBLIC__/js/wowu.min.js"></script>
+<script src="__PUBLIC__/js/jquery.magnific-popupu.min.js"></script>
+<script src="__PUBLIC__/js/owl.carouselu.min.js"></script>
+<!-- <script src="__PUBLIC__/js/bootstrapu.min.js"></script> -->
+<script src="__PUBLIC__/js/jquery-3.5.0.min.js"></script>
+<script src="__PUBLIC__/js/slick.min.js"></script>
+<!-- new for ubeauty -->
+
+</body>
+
+</html>

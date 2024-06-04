@@ -1,0 +1,86 @@
+<include file="Common/head" />
+
+<body>
+
+	<div style="width: 60%;margin: auto; padding: 60px 0; ">
+		<form id="form">
+
+
+			<div class="adminInputGroup">
+				<div class="adminInputTitle">Booking Detail</div>
+				<div class="adminInputTitle">Customer Name: {$info.user_name}</div>
+				<div class="adminInputTitle">Staff Name: {$info.stylist_name}</div>
+
+			</div>
+			<div class="adminInputGroup">
+				<div class="adminInputTitle">Booking Time</div>
+				<div class="adminInputLine"><input type="text" name="booking_start_time"
+						value="{$info.booking_start_time}" placeholder="{$info.booking_start_time'}" /></div>
+			</div>
+			<div class="adminInputGroup">
+				<div class="adminInputTitle">Appointment Detail</div>
+				<div class="adminInputLine"><input type="text" name="appointmentDetail"
+						value="{$info.appointmentDetail}" placeholder="{$info.appointmentDetail}" /></div>
+			</div>
+
+
+			<div class="adminInputGroup" style="text-align: center;">
+				<span class="saveDoBtn">save</span>
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>
+
+
+<script type="text/javascript">
+
+	var id = "{$info.id}";
+	if (id == false) {
+		var url = "{:U('save')}?do=add";
+	} else {
+		var url = "{:U('edit')}?do=edit&id=" + id;
+
+	}
+
+
+
+	$('.saveDoBtn').click(function () {
+		//alert(url)
+
+
+		$.ajax({
+			url: url,
+			type: "post",
+			dataType: "json",
+			data: new FormData($('#form')[0]),
+			processData: false,
+			contentType: false,
+			success: function (data) {
+
+				if (data.status == 111) {
+					layer.msg(data.msg);
+					setTimeout(function () {
+						parent.location.reload(); // 父頁面刷新
+						// var index = parent.layer.getFrameIndex(window.name); //獲取窗口索引
+						// parent.layer.close(index);
+					}, 500)
+				} else {
+					layer.msg(data.msg);
+				}
+
+
+
+
+			}
+		})
+
+
+
+
+
+
+	})
+
+</script>

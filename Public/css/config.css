@@ -1,0 +1,124 @@
+#loading {
+    background-color: #CCD5AE;
+}
+
+.default-btn {
+    color: #CCD5AE;
+    box-shadow: 4px 5px 5px #CCD5AE85;
+    background-color: #ffff;
+}
+
+/* navbar */
+.main-navbar {
+    background-color: #CCD5AE;
+}
+
+/* navbar text */
+.main-navbar .navbar .navbar-nav .nav-item a {
+    color: #ffffff;
+}
+
+/*  登錄 / 還不是會員？現在註冊 */
+.middle-header-optional li .user-btn {
+    background-color: #000;
+}
+
+/* cate list */
+.shop-category .category-title a {
+    background-color: #CCD5AE;
+}
+
+/* cate list box */
+.shop-item-box .shop-btn-list li a {
+    color: #CCD5AE;
+    box-shadow: 3px 3px 20px 1px #CCD5AE;
+    background-color: #fff;
+}
+
+/* 會員中心icon */
+.icon a i {
+    color: #CCD5AE;
+}
+
+
+.login-form button {
+    background-color: #dc3545;
+    color: #ffffff;
+}
+
+.loginText {
+    color: #CCD5AE;
+
+}
+
+/* 購物車 */
+/* 產品	單價	數量	總數 */
+.cart-table table thead tr th {
+    background-color: #6a6a6a;
+    color: white;
+}
+
+/* 優惠卷 */
+.orderlistT {
+    background-color: #6a6a6a;
+}
+
+.box {
+    box-shadow: rgba(128, 128, 128, 0.37) 5px 5px 5px;
+}
+
+/* wishlist */
+.wishlist-table .wishlist-title {
+    background-color: #f0ba50;
+    color: #ffff;
+}
+
+.wishlist-table table tbody tr td.product-btn .default-btn:hover {
+    color: #ffff !important;
+    background-color: #6a6a6a;
+}
+
+/* coupon */
+.coupon-box {
+    background-color: #402941;
+    color: #ffff;
+}
+
+.blink {
+    color: #00BA7B;
+}
+
+/* order */
+.order-box {
+    background-color: #656565;
+}
+
+.go-top {
+    color: #ffffff;
+    background-color: #6a6a6a;
+}
+
+/* footer */
+.footer-area::before {
+    background-color: #FAEDCD;
+}
+
+/* footer text*/
+.single-footer-widget h2 {
+    color: #050D3B;
+}
+
+.single-footer-widget p {
+    color: #050D3B;
+
+}
+
+.single-footer-widget .footer-contact-info li a:hover {
+    color: #000;
+}
+
+/* 最底 */
+
+.copyright-area {
+    background-color: #050D3B;
+}

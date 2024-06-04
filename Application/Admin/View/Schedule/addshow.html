@@ -1,0 +1,171 @@
+<include file="Common/head" />
+	<body>
+		
+		<div  style="width: 95%;margin: auto; padding: 60px 0; ">
+		<form  id="form">
+
+
+			<div  class="adminInputGroup">
+
+				<div  class="adminInputTitle">Schedule name</div>
+				<div  class="adminInputLine"><input type="text"  name="name" value="{$info.name}"   style="width: 40%"  /></div>
+
+			</div>
+
+
+
+
+			<div  class="adminInputGroup">
+				<table  class="richengtable">
+			
+						<tr>
+
+							<td></td>
+							<td>Sunday</td>
+							<td>Monday</td>
+							<td>Tuesday</td>
+							<td>Wednesday</td>
+							<td>Thursday </td>
+							<td>Friday</td>
+							<td>Saturday</td>
+							
+							
+						</tr>
+
+
+
+
+
+						<tr>
+							<td>Is it open</td>
+
+
+
+						<volist  name="twoArr" id="vo">
+							<td>
+								
+								<label >
+									<input type="radio" name="isOpen{$i}" class="demoHidden2" value="1" <if condition="$vo['isOpen'] eq 1">checked="true"</if>   >
+									<span class="radioInput2"></span>  <span class="radioName2" >Yes</span> 
+								</label>
+								 
+									<label >
+						<input type="radio" name="isOpen{$i}" class="demoHidden2" value="0" <if condition="$vo['isOpen'] eq 0">checked="true"</if>  >
+									<span class="radioInput2"></span>
+
+									<span  class="radioName2" >No</span> 
+								</label>
+
+								
+
+
+							</td>
+							</volist>
+						</tr>
+
+
+
+						<tr >
+							<td>Morning Working Hour</td>
+
+							<volist  name="twoArr" id="vo">
+
+							<td><input  type="text"  name="amBegHour[]" value="{$vo.amBegHour}"  />:00 ~ <input  type="text"  name="amEndHour[]"  value="{$vo.amEndHour}"  />:00 </td>	
+		
+							</volist>
+						</tr>
+
+
+
+						<tr >
+							<td>Afternoon working hour</td>
+							<volist  name="twoArr" id="vo">
+							<td><input  type="text"  name="pmBegHour[]" value="{$vo.pmBegHour}" />:00 ~ <input  type="text"  name="pmEndHour[]"  value="{$vo.pmEndHour}" />:00 </td>
+							</volist>
+						</tr>
+
+
+				</table>
+
+
+			</div>
+
+
+			
+
+
+			<div  class="adminInputGroup"  style="text-align: center;">
+				<span class="saveDoBtn">Save</span>
+			
+			</div>
+
+
+
+		</form>
+
+		</div>
+		
+		
+	</body>
+</html>
+
+
+<script type="text/javascript">
+
+var id="{$info.id}";
+if(id==false){
+   var url="{:U('save')}?do=add";
+}else{
+   var url="{:U('save')}?do=edit&id="+id;
+
+}
+
+
+$('.saveDoBtn').click(function(){
+
+	var name=$('input[name=name]').val();
+	
+	
+	
+	if(!name){
+		layer.msg('請輸入有效的name');
+		return false;
+	}
+	
+	
+	$.ajax({
+			url:url,
+			type:"post",
+			dataType:"json",
+			data:new FormData($('#form')[0]),
+	    	processData:false,
+	    	contentType:false,
+			success:function(data){
+
+				if(data.status==200){
+                        layer.msg(data.msg);
+                        setTimeout(function(){
+                         parent.location.reload(); // 父頁面刷新
+                         var index = parent.layer.getFrameIndex(window.name); //獲取窗口索引
+                            parent.layer.close(index);
+                        },500)
+                    }else{
+                        layer.msg(data.msg);
+                	}
+
+
+
+				
+			}
+		})
+	
+	
+	
+
+	
+	
+})
+
+</script>
+
+

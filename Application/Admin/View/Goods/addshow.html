@@ -1,0 +1,179 @@
+<include file="Common/head" />
+
+<body>
+    <div style="width: 60%;margin: auto; padding: 60px 0; ">
+        <form id="form">
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Product name</div>
+                <div class="adminInputLine"><input type="text" name="name" value="{$info.name}" /></div>
+            </div>
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">繁</div>
+                <div class="adminInputLine"><input type="text" name="twName" value="{$info.twName}" /></div>
+            </div>
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">簡</div>
+                <div class="adminInputLine"><input type="text" name="cnName" value="{$info.cnName}" /></div>
+            </div>
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Pictures</div>
+                <div class="adminInputLine" style="position: relative;height: 55px">
+                    If you do not want to update photos, please do not upload any photos <br />Select photo(s):
+                    <input type="file" name="photo[]" multiple />
+                </div>
+            </div>
+            <div class="adminInputGroup" style="margin-top:30px">
+                <div class="adminInputTitle">Category</div>
+                <div class="adminInputLine">
+                    <select class="selectinput" name="cateId" id="cateId" style="outline: none;
+					border: none;
+					width: 40%;
+					padding: 10px 10px; border-radius: 40px ;
+					filter:drop-shadow(0px 0px 6px rgba(0, 0, 0, 0.161));margin-top: 5px;background: #7c83a3;color: white ">
+                        <volist name="cate_list" id="vo">
+                            <option value="{$vo.cateId}">{$vo.name}
+                            </option>
+                        </volist>
+                    </select>
+                </div>
+            </div>
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Product description</div>
+                <div class="adminInputLine">
+                    <textarea name="desc" class="descInput"
+                        style="height: 120px;resize: none;width: 100%;color: #7c83a3">{$info.desc}</textarea>
+                </div>
+            </div>
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Place</div>
+                <div class="adminInputLine">
+                    <input type="text" name="place" value="{$info.place}" />
+                </div>
+            </div>
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Price</div>
+                <div class="adminInputLine">
+                    <input type="number" name="price" value="{$info.price}" min="1" max="9999999" />
+                </div>
+            </div>
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Stock</div>
+                <div class="adminInputLine"><input type="text" name="stock" value="{$info.stock}" /></div>
+            </div>
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Time</div>
+                <div class="adminInputLine"><input type="text" name="hour" value="{$info.hour}" /></div>
+            </div>
+            <div class="adminInputGroup" style="margin-top: 10px">
+                <div class="adminInputTitle">Whether the shelf</div>
+                <div class="adminInputLine2" style="margin-top: 7px">
+                    <label>
+                        <input type="radio" name="isShow" class="demoHidden" value="1" <if
+                            condition="$info['isShow'] eq 1">checked="true"</if> >
+                        <span class="radioInput"></span><span class="radioName">Yes</span>
+                    </label>
+                    <label style="margin-left: 30px">
+                        <input type="radio" name="isShow" class="demoHidden" value="2" <if
+                            condition="$info['isShow'] eq 2">checked="true"</if> >
+                        <span class="radioInput"></span>
+                        <span class="radioName">No</span>
+                    </label>
+                </div>
+            </div>
+            <div class="adminInputGroup" style="margin-top: 10px">
+                <div class="adminInputTitle">Is Package</div>
+                <div class="adminInputLine2" style="margin-top: 7px">
+                    <label>
+                        <input type="radio" name="isPackage" class="demoHidden" value="1" <if
+                            condition="$info['isPackage'] eq 1">checked="true"</if> >
+                        <span class="radioInput"></span><span class="radioName">Yes</span>
+                    </label>
+                    <label style="margin-left: 30px">
+                        <input type="radio" name="isPackage" class="demoHidden" value="0" <if
+                            condition="$info['isPackage'] eq 0">checked="true"</if> >
+                        <span class="radioInput"></span>
+                        <span class="radioName">No</span>
+                    </label>
+                </div>
+            </div>
+            <div class="adminInputGroup">
+                <div class="adminInputTitle">Number of Time for Package </div>
+                <div class="adminInputLine" style="position: relative;height: 55px"> If this product is not package,
+                    please enter "0"
+                    <input type="text" name="numberOfTimes" value="{$info.numberOfTimes}" />
+                </div>
+
+
+            </div>
+            <div class="adminInputGroup" style="text-align: center;">
+                <span class="saveDoBtn">save</span>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var id = "{$info.id}";
+        if (id == false) {
+            var url = "{:U('save')}?do=add";
+        } else {
+            var url = "{:U('save')}?do=edit&id=" + id;
+            $("#cateId option[value='" + "{$info.cateId}" + "']").attr("selected", "selected");
+        }
+        $('.saveDoBtn').click(function () {
+            var name = $('input[name=name]').val();
+            var desc = $('.descInput').val();
+            desc = desc.replace(/\n/g, '<br/>');
+            var price = $('input[name=price]').val();
+            var stock = $('input[name=stock]').val();
+            if (!name) {
+                layer.msg('請輸入有效的商品名稱');
+                return false;
+            }
+            if (!desc) {
+                layer.msg('請輸入有效的描述介紹');
+                return false;
+            }
+            //$('.descInput').val(desc);
+            //
+            if (!price) {
+                layer.msg('請輸入有效的價格');
+                return false;
+            }
+            if (!stock) {
+                layer.msg('請輸入有效的庫存');
+                return false;
+            }
+            layer.load(1);
+            for (var pair of new FormData($('#form')[0]).entries()) {
+                console.log('varName:' + pair[0] + ' ,varData:' + pair[1]);
+            }
+            $.ajax({
+                url: url,
+                type: "post",
+                dataType: "json",
+                data: new FormData($('#form')[0]),
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data);
+
+                    layer.closeAll('loading');
+                    if (data.status == 111) {
+                        layer.msg(data.msg);
+                        setTimeout(function () {
+                            parent.location.reload(); // 父頁面刷新
+                            var index = parent.layer.getFrameIndex(window
+                                .name); //獲取窗口索引
+                            parent.layer.close(index);
+                        }, 500)
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                }
+            })
+        })
+    })
+</script>

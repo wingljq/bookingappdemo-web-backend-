@@ -1,0 +1,71 @@
+<include file="Common/head" />
+
+<body>
+
+
+
+    <div style="width: 60%;margin: auto; padding: 60px 0; ">
+        <form id="form">
+
+            <div class="" style="text-align: center;">
+                <span> 自動為您的員工建立帳戶？</span>
+            </div>
+            <div class="adminInputGroup" style="text-align: center;">
+                <span class="saveDoBtn">確認</span>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+
+</body>
+
+
+
+<script type="text/javascript">
+    // var id = "{$info.uid}";
+    // if (id == false) {
+    //     var url = "{:U('save')}?do=add";
+    // } else {
+    //     var url = "{:U('save')}?do=edit&id=" + id;
+    // }
+
+    //alert();
+    $('.saveDoBtn').click(function () {
+        //console.log('123');
+
+
+
+        $.ajax({
+            url: "{:U('saveStaff')}",
+            type: "post",
+            dataType: "json",
+
+            success: function (data) {
+                console.log(data);
+                if (data.status == 110) {
+                    layer.msg(data.msg);
+                    setTimeout(function () {
+                        parent.location.reload(); // 父頁面刷新
+                        var index = parent.layer.getFrameIndex(window.name); //獲取窗口索引
+                        parent.layer.close(index);
+                    }, 500)
+                } else {
+                    layer.msg(data.msg);
+                }
+            }
+        });
+
+
+        layer.closeAll('loading');
+
+        parent.location.reload(); // 父頁面刷新
+    }
+
+    )
+</script>
+
+</html>

@@ -1,0 +1,157 @@
+<include file="Common/head" />
+
+		<script src="__PUBLIC__/js/base64.js"></script>
+
+
+	<body>
+		
+		<div  style="width: 60%;margin: auto; padding: 60px 0; ">
+		<form  id="form">	
+
+
+		<div  style="text-align: left;color: #C6999E;font-size: 30px ;text-indent: 20px ;margin:0px 0 25px; position: relative;" > </div>	
+			
+				<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Title name </div>
+				<div  class="adminInputLine">
+				<select  class="selectinput"  name="navTitle" id="navTitle"  style="outline: none;
+				border: none;
+				width: 40%;
+				padding: 10px 10px; border-radius: 40px ;
+				filter:drop-shadow(0px 0px 6px rgba(0, 0, 0, 0.161));margin-top: 5px;background: #7c8ca3;color: white " >
+				
+
+				<if condition="$_GET['navTitle']">
+					<option value="{$navTitle}" >{$navTitle}</option>
+
+				<else />
+
+					<option value="" >Please select </option>
+
+				</if>
+
+
+				<volist name="info['navTitle']" id="vo" >
+				<option value="{$vo}" >{$vo}
+				</option>
+				</volist>
+
+				</select>
+
+				</div>
+				</div>
+
+
+
+
+
+
+			<div  class="adminInputGroup"   style="margin-top: 50px">
+				<div  class="adminInputTitle">Content</div>
+				<div  class="adminInputLine">   
+
+			<textarea id="editor_id" name="content"  value=""  style="width:120%;height:800px;">
+			</textarea>
+				</div>
+
+			</div>
+
+
+			
+
+			
+
+			
+
+
+
+			<div  class="adminInputGroup"  style="text-align: center;">
+
+
+				<span class="saveDoBtn" >save</span>
+			
+			</div>
+
+
+
+			
+
+
+
+
+
+
+
+		</form>
+
+		</div>
+		
+		
+	</body>
+</html>
+
+
+<script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-all.js"></script>
+
+<script charset="utf-8" src="__PUBLIC__/kindeditor/lang/en.js"></script>
+
+	<script>
+		var base = new Base64(); 
+	    KindEditor.ready(function(K) {
+                window.editor = K.create('#editor_id');
+                var html=base.decode('{$htmlInfo["content"]}');
+
+                console.log(html);
+                editor.html(html);
+        });
+
+       
+		
+	</script>
+
+<script type="text/javascript">
+
+
+
+var url="{:U('saveHtml')}";
+
+$('.saveDoBtn').click(function(){
+
+html = window.editor.html();
+$('#editor_id').val(html);
+	
+	$.ajax({
+			url:url,
+			type:"post",
+			dataType:"json",
+			data:new FormData($('#form')[0]),
+	    	processData:false,
+	    	contentType:false,
+			success:function(data){
+
+				if(data.status==111){
+                        layer.msg(data.msg);
+                        setTimeout(function(){
+                         //location.reload();
+                        },500)
+                    }else{
+                        layer.msg(data.msg);
+                	}
+				
+			}
+		})
+
+	
+})
+
+
+
+$('#navTitle').change(function(){
+	var url="{:U('websitHtml')}?navTitle="+$('#navTitle').val();
+	location.href=url;
+})
+
+
+</script>
+
+

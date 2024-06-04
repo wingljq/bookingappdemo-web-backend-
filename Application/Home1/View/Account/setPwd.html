@@ -1,0 +1,108 @@
+<include file="Common/header" />
+
+<div  style="margin: 150px auto 0">
+
+		<div  style="text-align: center;color: #3cb7c9;font-size: 16px"  >設置新密碼</div>
+
+
+		<div   style="width: 90%;margin:20px auto 0;">
+
+			<form id="form">
+
+
+
+
+				<div style="margin-bottom: 20px;">
+					<input placeholder="輸入6-18位新密碼" class="inputCon" name="password1" type="password" />
+				</div>
+
+
+
+				<div>
+					<input placeholder="確認新密碼" class="inputCon" name="password2" type="password" />
+				</div>
+
+
+
+
+
+			</form>
+
+
+		<div class="updateHead"   id="save" style="width: 100%;margin: 30px  auto 0 ;padding: 8px 0">保存</div>
+
+
+		</div>
+
+
+</div>
+<include file="Common/footer2" />
+</body>
+</html>
+
+
+
+<script type="text/javascript">
+
+
+$("#save").click(function(){
+
+
+				var password1=$('input[name=password1]').val();
+				var password2=$('input[name=password2]').val();
+
+
+				if(!password1  ){
+					layer.msg('請輸入有效的新密碼');
+					return false;
+				}
+
+
+				if(password1.length<6  ){
+					layer.msg('請輸入6-18位新密碼');
+					return false;
+				}
+
+
+
+
+				if(!password2){
+					layer.msg('請輸入有效的確認密碼');
+					return false;
+				}
+
+
+				if(password1!=password2){
+					layer.msg('新密碼與確認密碼不一致');
+					return false;
+				}
+
+
+				sendPost({
+					url:"account/savePwd",
+					data:{
+
+						userName:getUrlData('userName'),
+						password:password1
+					},
+					succ:function(res){
+
+						layer.msg(res.msg);
+
+						if(res.code==0){
+							
+							fresh();
+						}
+
+					}
+
+				})
+
+
+
+
+
+})
+
+
+</script>

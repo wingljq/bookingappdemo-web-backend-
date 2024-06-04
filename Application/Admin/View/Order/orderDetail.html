@@ -1,0 +1,221 @@
+<include file="Common/head" />
+
+<body>
+    <!-- mainbox_ban -->
+    <div class="" id="app" v-cloak style="width: 95%;margin: 20px auto 0;">
+        <div class="mainbox_content">
+            <section>
+                <div class="payment_tablebox" style="border-radius: 0">
+                    <table class="am-table">
+                        <thead>
+                            <tr>
+                                <th>Photo</th>
+                                <th>Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabledatas">
+                            <tr v-for="(item,index)  of  list">
+                                <td> <img class="tableImg" :src="item.coverImg"> </td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.number}}</td>
+                                <td>{{item.totalamt}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- mainbox_ban end -->
+</body>
+
+</html>
+
+<script type="text/javascript">
+    new Vue({
+        el: '#app',
+        data: {
+            total: 0, // 記錄總條數
+            list: [],
+            page_size: 20,
+            search_name: '',
+            typeList: [],
+            tagsMoren: "選擇標簽",
+        },
+        created: function() {
+            this.pageLoad(1);
+        },
+        methods: {
+            pageLoad: function(page, name) {
+                name = this.search_name;
+                if (name == undefined) {
+                    name = '';
+                }
+                var that = this;
+                $.ajax({
+                    url: "{:U('orderDetailList')}?pagesize=" + this.page_size + "&page=" + page + "&name=" + name + "&orderId=" + getUrlData('id'),
+                    dataType: "json",
+                    type: "get",
+                    success: function(res) {
+                        console.log(res);
+                        that.list = res.data
+                        that.total = res.count;
+                    }
+                })
+            },
+            edit: function(title, url, w, h) {
+                layer_show(title, url, w, h);
+            },
+
+            del: function(id, xh) {
+                var that = this;
+                layer.confirm('確認要刪除嗎？', function(index) {
+                    $.ajax({
+                        type: 'get',
+                        url: '{:U("del")}?id=' + id,
+                        dataType: 'json',
+                        success: function(data) {
+                            layer.msg(data.msg);
+                            if (data.status == 111) {
+                                that.list.splice(xh, 1);
+                            }
+                        },
+                    });
+                });
+            },
+            add: function(title, url, w, h) {
+                layer_show(title, url, w, h);
+            },
+            change_page: function(val) {
+                this.pageLoad(val)
+            },
+            search: function() {
+                this.pageLoad(1, this.search_name);
+
+            },
+            outData: function() {
+                layer.msg('導出中...');
+                location.href = "{:U('excel/outOrder')}";
+
+            },
+
+            changeSelect: function(e, uid) {
+                var dataType = type = e.target.value;
+
+                if (dataType == '選擇標簽') {
+                    return false;
+                }
+
+                console.log(dataType, uid);
+                var that = this;
+                $.ajax({
+                    url: "{:U('setTags')}",
+                    dataType: "json",
+                    type: "post",
+                    data: {
+                        uid: uid,
+                        name: dataType
+                    },
+                    success: function(res) {
+                        layer.msg(res.msg);
+                        that.pageLoad(1);
+                    }
+                })
+
+            },
+
+            tagsChangeSelect(e) {
+
+                layer.load(1);
+                var that = this;
+                console.log(e.target.value)
+                var dataType = type = e.target.value;
+                if (dataType == '選擇標簽') {
+                    return false;
+                }
+
+                var id_arr = [];
+                var arr = $('input[name=id]');
+                for (i = 0; i < arr.length; i++) {
+                    if (arr[i].checked) {
+                        id_arr.push(arr[i].value);
+                    }
+                }
+                var id_str = id_arr.join(',');
+
+                if (id_str == false) {
+                    layer.msg('請選擇用護');
+                    return false;
+                }
+
+
+                $.ajax({
+                    url: "{:U('piliangSetTags')}",
+                    dataType: "json",
+                    type: "post",
+                    data: {
+                        id: id_str,
+                        name: dataType
+                    },
+                    success: function(res) {
+                        layer.closeAll('loading');
+
+                        layer.msg(res.msg);
+                        that.pageLoad(1);
+                    }
+                })
+            },
+        }
+
+    })
+
+    $('#delall').click(function() {
+        var id_arr = [];
+        var arr = $('input[name=id]');
+        for (i = 0; i < arr.length; i++) {
+            if (arr[i].checked) {
+                id_arr.push(arr[i].value);
+            }
+        }
+        var id_str = id_arr.join(',');
+
+        if (id_str == false) {
+            layer.msg('請選擇要刪除的項');
+            return false;
+        }
+
+        layer.confirm('確認要刪除嗎？',
+            function(index) {
+
+                $.ajax({
+                    url: "{:U('del')}" + "?id=" + id_str,
+                    type: "get",
+                    dataType: "json",
+                    success: function(res) {
+                        layer.msg(res.msg);
+                        if (res.status == 111) {
+                            setTimeout(function() {
+                                    location.reload();
+                                },
+                                900);
+                        }
+                    }
+                })
+
+            })
+    })
+
+    $("#checkall").click(function() {
+        $('[name=id]:checkbox').attr('checked', this.checked); //checked為true時為默認顯示的狀態  
+    });
+
+
+    $("#checkrev").click(function() {
+        //實現反選功能 
+        $('[name=id]:checkbox').each(function() {
+            this.checked = !this.checked;
+        });
+    });
+</script>

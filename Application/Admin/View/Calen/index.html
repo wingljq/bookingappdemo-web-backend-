@@ -1,0 +1,267 @@
+<include file="Common/head" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/fullcalendar.css" />
+<body  style="background: #fcfcfc;height: 200%">
+	<!-- mainbox_ban -->
+	<div class="mianbox_ban" id="app" v-cloak  style="height: auto; top: 25%;background: #fcfcfc ";   >
+		<div class="mainbox_content"  >
+			<div  class="pagegnbox">
+<!-- 					<div  class="cadatetit">20202434343   <span>current day 1 appintment</span> </div>
+ -->
+<!-- 					<div class="cagnline2" >  <span>111</span> <span>222</span>  <span>222</span>   </div>
+ -->
+			</div>
+<!-- 			<div class="checkin"></div>
+ -->
+				<div style="clear: both;"></div>
+				<!-- 主体 -->
+				<div class="main"  style="width: 94%;margin:10px auto; " >
+					<div id="calendar"></div>
+				</div>
+		</div>
+	</div>
+	<!-- mainbox_ban end -->
+</body>
+</html>
+<script>//小日历
+	window.onload=function(){
+		// $.ajax({
+		// 	type:"get",
+		// 	url:"/qiandao/index.php/Home/Index/istodayqd",
+		// 	success:function(data){
+		// 		if(data==1){
+		// 			$('.checkBtn').text("已签到");
+		// 		}
+		// 	}
+		// });
+	}
+		function clickOneDay(){
+		}
+		function tj(){
+		}		
+	</script>
+<script>
+window.clickNum=0;
+function leftDate(){
+	var nowdate = new Date();
+	window.clickNum=window.clickNum-1;
+	nowdate.setMonth(nowdate.getMonth()+window.clickNum);
+	var year = nowdate.getFullYear();
+	var month = nowdate.getMonth();
+	var day = nowdate.getDate();
+	InitCalen(year,month,day);
+}
+function rightDate(){
+	var nowdate = new Date();
+	window.clickNum=window.clickNum+1;
+	nowdate.setMonth(nowdate.getMonth()+window.clickNum);
+	var year = nowdate.getFullYear();
+	var month = nowdate.getMonth();
+	var day = nowdate.getDate();
+	InitCalen(year,month,day);
+}
+showCalent();
+function showCalent(){
+	myDate = new Date();
+	year = myDate.getFullYear();
+	month = myDate.getMonth()+1;
+	day = myDate.getDate();
+	if(month<10){
+		month='0'+month;
+	}
+	if(day<10){
+		day='0'+day;
+	}
+	window.dateShow=myDate;
+	window.begCalenDate=year+'-'+(month)+'-'+day;
+	//alert(window.begCalenDate  );
+	InitCalen(year,month,day);
+}
+	function  InitCalen(year,month,day){
+		$('.checkin').html('');
+	(function($) {
+		var Checkin = function(ele, options) {
+			this.ele = ele;
+			this.opt = options;
+			this.defaults = {
+				width: 350,
+				height: 350,
+				background: '#ffffff',
+				radius: 0,
+				color: '#fff',
+				padding: 5,
+				dateArray: [], // 假设已签到的天数+1
+			};
+			this.obj = $.extend({}, this.defaults, this.opt);
+		}
+	//var json_obj=$.parseJSON(this.defaults);
+	//console.log(Checkin);
+		//var a = [];
+		//	<volist name="month_num" id="vo">		
+			//	json_obj.dateArray.push={$vo};		
+				//a.push({$vo});				
+			//</volist>	
+	//alert(a);
+		Checkin.prototype.init = function() {
+			var _self = this.ele,
+				html = '',
+				//myDate = new Date(),
+				// year = myDate.getFullYear(),
+				// //month = myDate.getMonth(),
+				// month=months;
+				// day = myDate.getDate(),
+				// 
+				weekText = ['日', '一', '二', '三', '四', '五', '六'];
+			_self.css({
+				width: this.obj.width + 'px',
+				height: this.obj.height,
+				background: this.obj.background,
+				borderRadius: this.obj.radius,
+				color: this.obj.color,
+				padding: this.obj.padding
+			}).append("<div class='title'><p>" + year + '年' + (month + 1) + '月' + day + '日' + "</p><a class=\'checkBtn\'   >  <i class='iconfont icon-fanhui'  onclick=\"leftDate()\" ></i>  &nbsp; &nbsp; &nbsp; <i class='iconfont icon-right' onclick=\"rightDate()\" ></i>  </a></div>");
+			//append("<div class='title'><p>" + year + '年' + (month + 1) + '月' + day + '日' + "</p><a class=\'checkBtn\' href=\"javascript:;\"  onclick=\"tj()\">每日签到</a></div>");
+			$("<ul class='week clearfix'></ul><ul class='calendarList clearfix' id='ullist'></ul>").appendTo(_self);
+			for (var i = 0; i < 7; i++) {
+				_self.find(".week").append("<li  onclick=\"tj2()\"  >" + weekText[i] + "</li>")
+			};
+			for (var i = 0; i < 42; i++) {
+				html += "<li onclick=\"clickOneDay()\" ></li>"
+			};
+			_self.find(".calendarList").append(html);
+			var $li = _self.find(".calendarList").find("li");
+			_self.find(".week li").css({
+				width:  45 + 'px',
+				height: 45 + 'px',
+				// borderRight: '1px solid #f90',
+				boxSizing: 'border-box',
+				background: '#ffffff',
+				color:'#7c83a3',
+			});
+			$li.css({
+				width:  45 + 'px',
+				height: 45 + 'px',
+				// borderRight: '1px solid #f90',
+				// borderBottom: '1px solid #f90',
+				boxSizing: 'border-box',
+				color: "#7c83a3",
+			});
+			_self.find(".calendarList").find("li:nth-child(7n)").css('borderRight', 'none');
+			_self.find(".week li:nth-child(7n)").css('borderRight', 'none');
+			var monthFirst = new Date(year, month, 1).getDay();
+			var d = new Date(year, (month + 1), 0)
+			var totalDay = d.getDate(); //获取当前月的天数
+			//
+			var a = [];
+			// $.ajax({
+			// 	type:"post",
+			// 	url:"/qiandao/index.php/Home/Index/daynum",
+			// 	success:function(data){
+			// 		var res=$.parseJSON(data);
+			// 		for (var i =0; i<res.length;i++) {
+			// 			a.push(res[i]);
+			// 		}
+			// 					for (var i = 0; i < totalDay; i++) {
+			// 	$li.eq(i + monthFirst).html(i + 1);
+			// 	$li.eq(i + monthFirst).addClass('data' + (i + 1))
+			// 		for (var j = 0; j < a.length; j++) {
+			// 			if (i == a[j]) {
+			// 				// 假设已经签到的
+			// 				console.log(a[j]);
+			// 				$li.eq(i + monthFirst).addClass('checked');
+			// 			}
+			// 		}
+			// }
+			// 	}
+			// });
+			//
+			for (var i = 0; i < totalDay; i++) {
+				$li.eq(i + monthFirst).html(i + 1);
+				$li.eq(i + monthFirst).addClass('data' + (i + 1))
+				if (isArray(this.obj.dateArray)) {
+					for (var j = 0; j < a.length; j++) {
+						if (i == a[j]) {
+							// 假设已经签到的
+							console.log(a[j]);
+							$li.eq(i + monthFirst).addClass('checked');
+						}
+					}
+					for (var j = 0; j < this.obj.dateArray.length; j++) {
+						if (i == this.obj.dateArray[j]) {
+							// 假设已经签到的
+							$li.eq(i + monthFirst).addClass('checked');
+						}
+					}
+				}
+			}
+			//$li.eq(monthFirst+day-1).css('background','#f7ca8e')
+			_self.find($(".data" + day)).addClass('able-qiandao').css('color','#ffffff');
+		}
+		var isChecked = false;
+		Checkin.prototype.events = function() {
+			var _self = this.ele;
+			var $li = _self.find(".calendarList").find("li");
+			$li.on('click', function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				if ($(this).hasClass('able-qiandao')) {
+					$(this).addClass('checked');
+					modal(_self);
+					isChecked = true;
+				}
+			});
+			var checkBtn = _self.find(".checkBtn");
+			checkBtn.click(function(event) {
+				modal(_self);
+				//点击立即加圈
+				_self.find('.able-qiandao').addClass('checked');
+				isChecked = true;
+			});
+		}
+		var modal = function(e) {
+			/*
+			var mask = e.parents().find(".mask");
+			var close = e.parents().find(".closeBtn");
+			if (mask && !isChecked) {
+				mask.addClass('trf');
+			} else {
+				return
+			};
+			close.click(function(event) {
+				event.preventDefault();
+				mask.removeClass('trf')
+			});
+			*/
+			//e.parents().find('.checkBtn').text("已签到");
+		}
+		$.fn.Checkin = function(options) {
+			var checkin = new Checkin(this, options);
+			var obj = [checkin.init(), checkin.events()]
+			return obj
+		}
+		var isArray = function(arg) {
+			return Object.prototype.toString.call(arg) === '[object Array]';
+		};
+// 插件调用
+	$(".checkin").Checkin();
+	})(jQuery);
+}
+	// 元素居中显示，与插件无关，根本自己需要修改；
+	//$(".checkin").css('marginTop',parseInt(($(window).innerHeight()-$(".checkin").outerHeight())/2)+'px');
+	</script>
+	<script type="text/javascript" src="__PUBLIC__/js/moment.min.js" ></script><!-- 日期处理时间工具 -->
+	<script type="text/javascript" src="__PUBLIC__/js/fullcalendar.min.js" ></script>
+	<script type="text/javascript" src="__PUBLIC__/js/calen.js" ></script>
+<script>//大日历
+	$(function(){
+		$.ajax({
+				url:"{:U('order/calenList')}",
+				type:"get",
+				dataType:"json",
+				data:{},
+				success:function(res){
+					var orderDataJson=res.data;
+					showCalen(window.begCalenDate ,orderDataJson);
+				}
+		})
+	})
+</script>

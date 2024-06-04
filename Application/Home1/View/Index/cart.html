@@ -1,0 +1,562 @@
+<include file="Common/header" />
+<!-- Start Page Banner -->
+<style>
+    @media only screen and (max-width: 767px) {
+        .row1 {
+            display: flex;
+            flex-flow: row nowrap;
+            align-content: flex-start;
+            flex-direction: column !important;
+
+        }
+
+    }
+
+    .field__input {
+        /* border: 1px transparent solid; */
+        background-clip: padding-box;
+        border-radius: 5px;
+        display: block;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 0.9285714286em 0.7857142857em;
+        word-break: normal;
+        line-height: inherit;
+    }
+
+    .field {
+        width: 100%;
+        float: left;
+        padding: 0.4285714286em;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .field_half {
+        width: 50%;
+    }
+</style>
+<div class="page-banner">
+    <div class="row">
+        <div class="col-lg-12 col-md-12" style="padding: 0 0 0 0;">
+            <div class="home-slides owl-carousel owl-theme">
+                <volist name="pagebanner" id="vo">
+                    <div class="page-banner-area" style="background-image:url({$vo.image});
+                        background-position: center center;
+                        background-size: cover;
+                        background-repeat: no-repeat;
+                        padding-top: 100px;
+                        padding-bottom: 100px;
+                        position: relative;
+                        z-index: 1;
+                    ">
+                    <div class="container">
+                        <div class="page-banner-content">
+                            <h2>{:L('cart')}</h2>
+                            <ul>
+                                <li>
+                                    <a href="{:U('/')}" style="color: #F4EC00;">{:L('home')}</a>
+                                </li>
+                                <li><i class="fa fa-chevron-right" style="color: #ffff"></i></li>
+                                <li style="color: #ffff">{:L('cart')}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                </volist>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- End Page Banner -->
+
+<!-- Start Cart Area -->
+<section class="cart-area ptb-100">
+    <div class="container">
+        <div class="row1" id="app" style="
+                display: flex;
+                flex-wrap: nowrap;
+                flex-direction: row;
+                align-content: flex-start;
+            ">
+            <div class="col-lg-8 col-md-12 box" style="
+                padding-right: 0px;
+                    border-radius: 15px;
+                    margin-bottom: 5%;
+                ">
+                <form>
+                    <div class="cart-table table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        <!-- {:L('photo')} -->
+                                    </th>
+                                    <th scope="col">{:L('Product')}</th>
+                                    <th scope="col">{:L('UnitPric')}</th>
+                                    <th scope="col">{:L('Quantity')}</th>
+                                    <th scope="col">{:L('Total')}</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="top-class" v-for="(item, key) in cart">
+                                    <td class="product-thumbnail">
+                                        <a @click="delCartGoods(item,key)" class="remove"><i class="bx bx-x"></i></a>
+                                        <a>
+                                            <img v-bind:src="item.coverImg" alt="item" />
+                                        </a>
+                                    </td>
+                                    <td class="product-name">
+                                        <div style="
+                                                padding-left: 40px;
+                                                width: 200px;
+                                                white-space: nowrap;
+                                                test-overflow: ellipsis;
+                                                overflow: hidden;
+                                            ">
+                                            <a v-bind:href="'{:U('index/detail')}?id='+item.goodsId">{{item.name}}</a>
+                                        </div>
+                                        <!-- <a :href="{:U('index/detail')}?id="item.goodsId>{{item.name}}</a> -->
+                                    </td>
+                                    <td class="product-price">
+                                        <span class="unit-amount">${{item.price}}</span>
+                                    </td>
+                                    <td class="product-quantity">
+                                        <div class="input-counter">
+                                            <span class="minus-btn" @click="reduceCartNumber(item,key)"><i
+                                                    class="bx bx-minus"></i></span>
+                                            <div type="text">
+                                                {{item.quantity}}
+                                            </div>
+                                            <span class="plus-btn" @click="addCartNumber(item,key)"><i
+                                                    class="bx bx-plus"></i></span>
+                                        </div>
+                                    </td>
+                                    <td class="product-subtotal">
+                                        <span class="subtotal-amount">${{item.totalamt}}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+                <!-- 運送地址 -->
+                <h2>運送地址</h2>
+                <div class="field">
+                    <select size="1" class="field__input" aria-required="true" placeholder="國家/地區">
+                        <option data-code="HK" value="Hong Kong">中國香港特別行政區</option>
+                        <!-- <option disabled="disabled" value="---">---</option>
+            <option data-code="MO" value="Macao">中國澳門特別行政區</option>
+            <option data-code="HK" value="Hong Kong">中國香港特別行政區</option>
+            <option data-code="TW" value="Taiwan">台灣</option> -->
+                    </select>
+                </div>
+
+                <div>
+                    <div class="field field_half">
+                        <input v-model="customer" placeholder="{:L('name')}" autocomplete="shipping given-name" autocorrect="off"
+                            data-backup="first_name" class="field__input" size="30" type="text">
+                    </div>
+                    <div class="field field_half">
+                        <input v-model="email" placeholder="{:L('devemail')}" autocomplete="shipping given-name"
+                            autocorrect="off" data-backup="first_name" class="field__input" size="30" type="text">
+                    </div>
+                    <div class="field">
+                        <input v-model="address" placeholder="{:L('address')}" autocomplete="shipping given-name" autocorrect="off"
+                            data-backup="first_name" class="field__input" size="30" type="text">
+                    </div>
+                    <div style="">
+                        <div class="field field_half">
+                            <select id="location" size="1" class="field__input" aria-required="true" placeholder="{:L('area')}"
+                                @change="locationChange()"></select>
+                            </h1>
+                        </div>
+                        <div class="field field_half">
+                            <select id="locations" size="1" class="field__input" aria-required="true"
+                                placeholder="{:L('point')}"></select>
+                        </div>
+                        <div class="field">
+                            <input v-model="phone" placeholder="{:L('phone')}" autocomplete="shipping given-name" autocorrect="off"
+                                data-backup="first_name" class="field__input" size="30" type="text">
+                        </div>
+                    </div>
+                </div>
+                <!-- 運送END -->
+            </div>
+
+            <div class="col-lg-4 col-md-12" style="display: flex; flex-direction: column">
+                <div class="" style="padding-left: 0px">
+                    <div class="contact-info-box box" style="
+                            padding: 0px;
+                            width: 100%;
+                            height: 150px;
+                            border-radius: 15px;
+                        ">
+                        <div class="orderlistT" style="
+                                display: flex;
+                                align-content: center;
+                                justify-content: center;
+                                align-items: center;
+                                flex-wrap: nowrap;
+                                border-radius: 9px;
+                                padding: 2%;
+                            ">
+                            <a style="color: white" href="{:U('account/coupon')}">
+                                <h3 style="color: white">{:L('coupon')}</h3>
+                            </a>
+                        </div>
+                        <div class="or" style="
+                                height: 50%;
+                                display: flex;
+                                flex-direction: column;
+                                flex-wrap: nowrap;
+                                align-content: center;
+                                justify-content: center;
+                                align-items: center;
+                            ">
+                            <div class="cart-buttons">
+                                <div class="row align-items-center">
+                                    <div class="input-group">
+                                        <select name="coupon-select" id="coupon-select" @change="couponSelect()"
+                                            style="width: 200px" class="form-control white-input">
+                                            <option value="-1">
+                                                --{:L('coupons')}--
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cart-totals">
+                    <div class="contact-info-box box" style="
+                            padding: 0px;
+                            width: 100%;
+                            height: 230px;
+                            border-radius: 15px;
+                        ">
+                        <div class="orderlistT" style="
+                                display: flex;
+                                align-content: center;
+                                justify-content: center;
+                                align-items: center;
+                                flex-wrap: nowrap;
+                                border-radius: 9px;
+                                padding: 2%;
+                            ">
+                            <h3 style="color: white">{:L('CartTotals')}</h3>
+                        </div>
+                        <div class="or" style="
+                                height: 50%;
+                                display: flex;
+                                flex-direction: column;
+                                flex-wrap: nowrap;
+                                align-content: center;
+                                justify-content: center;
+                                align-items: center;
+                            ">
+                            <div class="cart-buttons">
+                                <div class="row align-items-center" style="
+                                        display: flex;
+                                        flex-direction: column;
+                                        flex-wrap: nowrap;
+                                        align-items: stretch;
+                                        align-content: space-around;
+                                    ">
+                                    <ul>
+                                        <li style="
+                                                font-size: 18px;
+                                                /* border-bottom: none; */
+                                                padding-bottom: 0;
+                                            ">
+                                            {:L('Subtotal')}
+                                            <span>${{totalamt}}</span>
+                                        </li>
+                                        <li id="display-coupon" style="display: none">
+                                            {:L('couponDiscount')}
+                                            <span id="display-coupon-amount"></span>
+                                        </li>
+                                        <!-- <li>{:L('Shipping')} <span>$</span></li> -->
+                                        <!-- <li>{:L('Total')} <span>${{totalamt}}</span></li> -->
+                                        <li>
+                                            {:L('PayableTotal')}
+                                            <span id="display-total">${{totalamt}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a @click="finishPay()" class="default-btn1" style="
+                        display: inline-block;
+                        padding: 15px 25px;
+                        color: #6a6a6a;
+                        border-radius: 15px;
+                        -webkit-transition: 0.5s;
+                        transition: 0.5s;
+                        position: relative;
+                        z-index: 1;
+                        overflow: hidden;
+                        border-radius: 30px;
+                        background-color: #ffff;
+                        border: 3px #6a6a6a solid;
+                        display: flex;
+                        flex-wrap: wrap;
+                        flex-direction: row;
+                        align-items: center;
+                        font-size: 26px;
+                        text-align: center;
+                        justify-content: space-evenly;
+                    ">
+                    {:L('ProceedtoCheckout')}
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Cart Area -->
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        var coupon = [];
+        new Vue({
+            el: "#app",
+            data: {
+                cart: [],
+				totalamt: "0",
+				uid: "",
+                selected: 1,
+                location: null,
+                customer: "",
+                email: "",
+                phone: "",
+                address: "",
+            },
+            created: function () {
+                this.pageLoad();
+            },
+
+            methods: {
+                pageLoad: function () {
+                    var that = this;
+                    $.ajax({
+                        url: "{:U('cart/getLocation')}",
+                        data: {},
+                        type: "get",
+                        dataType: "json",
+                        success: function (res) {
+
+                            that.location = res.data;
+
+                            sels = document.getElementById("location");
+
+                            for (i = 0; i < Object.keys(res.data).length; i++) {
+                                opt = document.createElement('option');
+                                opt.textContent = Object.keys(res.data)[i];
+                                opt.value = Object.keys(res.data)[i];
+                                sels.appendChild(opt);
+
+                            }
+
+                            sel2 = document.getElementById("locations");
+
+                            for (k = 0; k < res.data[Object.keys(res.data)[0]].length; k++) {
+                                opt2 = document.createElement('option');
+                                opt2.textContent = res.data[Object.keys(res.data)[0]][k].name;
+                                opt2.value = res.data[Object.keys(res.data)[0]][k].code;
+                                sel2.appendChild(opt2);
+
+                            }
+
+                        }
+                    });
+                    $.ajax({
+                        url: "{:U('cart/getAllCart')}",
+                        data: {
+                            status: 0,
+                        },
+                        type: "get",
+                        dataType: "json",
+                        success: function (res) {
+                            price = 0;
+                            for (i = 0; i < res.data.length; i++) {
+                                res.data[i].totalamt =
+                                    parseInt(res.data[i].price) *
+                                    res.data[i].quantity;
+                                price = +price + res.data[i].totalamt;
+                            }
+                            that.cart = res.data;
+                            that.totalamt = price;
+                            that.uid = res.data[0].uid;
+                        },
+                    });
+                    $.ajax({
+                        url: "{:U('user/getUseryhcard')}",
+                        data: {},
+                        type: "get",
+                        dataType: "json",
+                        success: function (res) {
+                            coupon = res.data;
+                            select = document.getElementById("coupon-select");
+                            for (var i = 0; i < res.data.length; i++) {
+                                var opt = document.createElement("option");
+                                opt.value = res.data[i].id;
+                                opt.text = res.data[i].name;
+                                opt.couponAmount = res.data[i].deduMoney;
+                                select.appendChild(opt);
+                            }
+                        },
+                    });
+                },
+                addCartNumber: function (cartInfo, index) {
+                    var that = this;
+                    that.quantity = Number(cartInfo.quantity) + 1;
+                    $.ajax({
+                        url: "{:U('index/editNumber')}",
+                        data: {
+                            quantity: that.quantity,
+                            id: cartInfo.goodsId,
+                        },
+                        type: "post",
+                        dataType: "json",
+                        success: function (res) {
+                            that.cart[index].quantity = that.quantity;
+                            that.cart[index].totalamt =
+                                that.quantity * that.cart[index].price;
+                            that.totalamt = res.data.totalamt;
+                        },
+                    });
+                },
+                reduceCartNumber: function (cartInfo, index) {
+                    var that = this;
+                    if (cartInfo.quantity == 1) {
+                        return false;
+                    } else {
+                        that.quantity = cartInfo.quantity - 1;
+                    }
+                    $.ajax({
+                        url: "{:U('index/editNumber')}",
+                        data: {
+                            quantity: that.quantity,
+                            id: cartInfo.goodsId,
+                        },
+                        type: "post",
+                        dataType: "json",
+                        success: function (res) {
+                            that.cart[index].quantity = that.quantity;
+                            that.cart[index].totalamt =
+                                that.quantity * that.cart[index].price;
+                            that.totalamt = res.data.totalamt;
+                        },
+                    });
+                },
+
+                delCartGoods: function (cartInfo, index) {
+                    var that = this;
+
+                    $.ajax({
+                        url: "{:U('index/delCartGoods')}",
+                        data: {
+                            quantity: that.quantity,
+                            id: cartInfo.goodsId,
+                        },
+                        type: "post",
+                        dataType: "json",
+                        success: function (res) {
+                            that.cart.splice(index, 1);
+                            that.totalamt = res.data.totalamt;
+                        },
+                    });
+                },
+
+                finishPay: function () {
+                    var that = this;
+                    if (this.cart.length == 0) {
+                        alert("please go add something in to cart first!");
+                    } else {
+                        document.getElementById("loading").style.display =
+                            "block";
+                        $.ajax({
+                            url: "{:U('cart/paypalIntent')}",
+                            type: "post",
+                            dataType: "json",
+                            data: {
+                                uid: that.uid,
+                                type: "web",
+                                customer: that.customer,
+                                email: that.email,
+                                phone: that.phone,
+                                address: that.address,
+                                location: $('#location').val(),
+                                locations: $("#locations option:selected").text(),
+                                coupon:
+                                    $("#coupon-select").val() == -1
+                                        ? null
+                                        : $("#coupon-select").val(),
+                            },
+                            success: function (res) {
+                                if (res.status == "1") {
+                                    window.location.href = res.data;
+                                }
+                            },
+                        });
+                    }
+                },
+                locationChange: function () {
+
+                    //var locations= $('#location option:selected').val();
+                    $("#locations").empty();
+                    console.log(this.location);
+
+                    sel = document.getElementById("locations");
+
+                    for (i = 0; i < Object.keys(this.location).length; i++) {
+                        ;
+                        if ($('#location option:selected').val() == Object.keys(this.location)[i]) {
+                            for (k = 0; k < this.location[Object.keys(this.location)[i]].length; k++) {
+                                console.log(this.location[Object.keys(this.location)[i]].length);
+
+                                opt = document.createElement('option');
+                                opt.textContent = this.location[Object.keys(this.location)[i]][k].name;
+                                opt.value = this.location[Object.keys(this.location)[i]][k].code;
+                                sel.appendChild(opt);
+
+                            }
+                        }
+                    }
+
+                },
+                couponSelect: function () {
+                    var that = this;
+                    if ($("#coupon-select").val() != -1) {
+                        $("#display-coupon").show();
+
+                        var currentCoupon;
+                        for (i = 0; i < coupon.length; i++) {
+                            if (coupon[i].id == $("#coupon-select").val()) {
+                                currentCoupon = coupon[i];
+                            }
+                        }
+                        $("#display-coupon-amount").text(
+                            "-  HK$ " + parseInt(currentCoupon.deduMoney)
+                        );
+
+                        $("#display-total").text(
+                            "HK$ " +
+                            (that.totalamt -
+                                parseInt(currentCoupon.deduMoney))
+                        );
+                    } else {
+                        $("#display-coupon").hide();
+                        $("#display-total").text("HK$ " + that.totalamt);
+                    }
+                },
+            },
+        });
+    });
+</script>
+
+<include file="Common/footer" />

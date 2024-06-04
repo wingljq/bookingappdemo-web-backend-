@@ -1,0 +1,76 @@
+<include file="Common/head" />
+
+<body>
+
+	<div style="width: 60%;margin: auto; padding: 60px 0; ">
+		<form id="form">
+
+			<div class="adminInputGroup">
+				<div class="adminInputTitle">Pictures</div>
+				<div class="adminInputLine" style="position: relative;height: 55px">
+					<span class="addPicBtn"><i id="icon-shangchuan1" class="iconfont icon-shangchuan1"></i>&nbsp;Select
+						Picture </span>
+					<input class="addPicInput" id="id_myfile" type="file" placeholder="請選擇圖片" name="cateImage" />
+					<img style="width: 100px;margin-left: 100px;position: absolute;z-index: 100;height: 60px;"
+						id="id_img" src="{$info.cateImage}">
+					<div style="clear: both;"></div>
+				</div>
+			</div>
+
+			<div class="adminInputGroup">
+				<div class="adminInputTitle">Category name</div>
+				<div class="adminInputLine"><input type="text" name="name" value="{$info.name}" /></div>
+			</div>
+			<div class="adminInputGroup">
+				<div class="adminInputTitle">繁</div>
+				<div class="adminInputLine"><input type="text" name="twName" value="{$info.twName}" /></div>
+			</div>
+			<div class="adminInputGroup">
+				<div class="adminInputTitle">簡</div>
+				<div class="adminInputLine"><input type="text" name="cnName" value="{$info.cnName}" /></div>
+			</div>
+			<div class="adminInputGroup" style="text-align: center;">
+				<span class="saveDoBtn">save</span>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
+
+<script type="text/javascript">
+	var id = "{$info.cateId}";
+	if (id == false) {
+		var url = "{:U('save')}?do=add";
+	} else {
+		var url = "{:U('save')}?do=edit&id=" + id;
+	}
+	$('.saveDoBtn').click(function () {
+		var name = $('input[name=name]').val();
+
+		if (!name) {
+			layer.msg('Please enter  category name ');
+			return false;
+		}
+
+		$.ajax({
+			url: url,
+			type: "post",
+			dataType: "json",
+			data: new FormData($('#form')[0]),
+			processData: false,
+			contentType: false,
+			success: function (data) {
+				if (data.status == 111) {
+					layer.msg(data.msg);
+					setTimeout(function () {
+						parent.location.reload(); // 父頁面刷新
+						var index = parent.layer.getFrameIndex(window.name); //獲取窗口索引
+						parent.layer.close(index);
+					}, 500)
+				} else {
+					layer.msg(data.msg);
+				}
+			}
+		})
+	})
+</script>

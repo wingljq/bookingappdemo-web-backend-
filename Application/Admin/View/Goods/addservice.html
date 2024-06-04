@@ -1,0 +1,195 @@
+<include file="Common/head" />
+	<body>
+		
+		<div  style="width: 60%;margin: auto; padding: 60px 0; ">
+		<form  id="form">	
+				<input type="hidden" name="type"  value="3"  />	
+		
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Name of service item </div>
+				<div  class="adminInputLine"><input type="text"  name="name" value="{$info.name}"  /></div>
+
+			</div>
+
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Duration (hours) </div>
+				<div  class="adminInputLine"><input type="text"  name="hour" value="{$info.hour}"  /></div>
+
+			</div>
+
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Price</div>
+				<div  class="adminInputLine"><input type="text"  name="price" value="{$info.price}"  /></div>
+
+			</div>
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Maximum number of appointments per period </div>
+				<div  class="adminInputLine"><input type="text"  name="oneHourStock" value="{$info.oneHourStock}"  /></div>
+
+			</div>
+
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Maximum number of appointments on the same day </div>
+				<div  class="adminInputLine"><input type="text"  name="stock" value="{$info.stock}"  /></div>
+
+			</div>
+
+
+
+
+
+
+			<div  class="adminInputGroup" >
+				<div  class="adminInputTitle">Picture</div>
+				<div  class="adminInputLine"  style="position: relative;height: 55px" >
+				<span  class="addPicBtn" ><i id="icon-shangchuan1" class="iconfont icon-shangchuan1"></i>&nbsp;Select Picture </span>
+				<input  class="addPicInput"  id="id_myfile"   type="file"  placeholder="請選擇圖片" name="coverImg"  onchange="javascript:layer.msg(' Picture selected ')"   />
+				<img  style="width: 100px;margin-left: 100px;position: absolute;z-index: 100;height: 60px;"   id="id_img" src="{$info.image}">
+
+				<div style="clear: both;"></div>
+
+				
+				</div>
+			
+			</div>
+
+
+
+					<div  class="adminInputGroup">
+					<div  class="adminInputTitle">Schedule</div>
+					<div  class="adminInputLine">
+					<select  class="selectinput"  name="richengId" id="richengId"  style="outline: none;
+					border: none;
+					width: 40%;
+					padding: 10px 10px; border-radius: 40px ;
+					filter:drop-shadow(0px 0px 6px rgba(0, 0, 0, 0.161));margin-top: 5px;background: #5AABBC;color: white " >
+					<volist name="list" id="vo" >
+					<option value="{$vo.id}" >{$vo.name}
+					</option>
+					</volist>
+
+					</select>
+
+					</div>
+					</div>
+
+
+			
+
+
+			
+
+
+		<div  class="adminInputGroup"   style="margin-top: 10px">
+				<div  class="adminInputTitle"> Is it on sale </div>
+				<div  class="adminInputLine2" style="margin-top: 7px" >
+					<label >
+						<input type="radio" name="isShow" class="demoHidden" value="1" <if condition="$info['isShow'] eq 1">checked="true"</if>   >
+						<span class="radioInput"></span><span class="radioName" >Yes</span> 
+					</label>
+					<label style="margin-left: 30px" >
+						<input type="radio" name="isShow" class="demoHidden" value="2" <if condition="$info['isShow'] eq 2">checked="true"</if> >
+						<span class="radioInput"></span>
+						<span  class="radioName" >No</span> 
+					</label>
+				</div>
+			</div>
+
+
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle"> Appointment calendar display background color  </div>
+				<div  class="adminInputLine"><input type="color"  name="color" value="{$info.color}" style="width: 180px"   /></div>
+
+			</div>
+
+			
+			
+
+			<div  class="adminInputGroup"  style="text-align: center;">
+				<span class="saveDoBtn">Save</span>
+			
+			</div>
+
+
+
+		</form>
+
+		</div>
+		
+		
+	</body>
+</html>
+
+
+<script type="text/javascript">
+
+var id="{$info.id}";
+if(id==false){
+   var url="{:U('save')}?do=add";
+}else{
+   var url="{:U('save')}?do=edit&id="+id;
+   $("#richengId option[value='"+"{$info.richengId}"+"']").attr("selected","selected"); 
+
+}
+
+
+$('.saveDoBtn').click(function(){
+
+	var name=$('input[name=name]').val();
+	var price=$('input[name=price]').val();
+	
+	
+	if(!name){
+		layer.msg(' Please enter a valid name ');
+		return false;
+	}
+	
+	if(!price){
+		layer.msg(' Please enter a valid price ');
+		return false;
+	}
+
+	layer.load(1);
+	$.ajax({
+			url:url,
+			type:"post",
+			dataType:"json",
+			data:new FormData($('#form')[0]),
+	    	processData:false,
+	    	contentType:false,
+			success:function(data){
+
+				layer.closeAll();
+
+				if(data.status==111){
+                        layer.msg(data.msg);
+                        setTimeout(function(){
+                         parent.location.reload(); // 父頁面刷新
+                         var index = parent.layer.getFrameIndex(window.name); //獲取窗口索引
+                            parent.layer.close(index);
+                        },500)
+                    }else{
+                        layer.msg(data.msg);
+                	}
+
+
+
+				
+			}
+		})
+	
+	
+	
+
+	
+	
+})
+
+</script>
+
+

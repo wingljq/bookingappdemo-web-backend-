@@ -1,0 +1,232 @@
+<include file="Common/head" />
+
+
+<body>
+
+
+    <!-- mainbox_ban -->
+    <div class="mianbox_ban" id="app" v-cloak>
+
+
+
+        <div class="mainbox_content">
+
+
+            <div class="tableTit"><span class="listTitle">Shop</span>
+
+                <input type="text" class="serachInput" placeholder="Search" name="name" v-model='search_name' />
+                <i class="iconfont icon-search" @click="search"></i>
+                <span @click="addshow('Create Shop','{:U('addshow')}',1000,620 )" class="adminDoBtn" style="float: right; margin: 7px 2px 0 0 ; ">Create Shop</span>
+                <span class="adminDoBtn" style="float: right;margin: 7px 20px 0 0 ; " @click="outData">Export</span>
+
+            </div>
+
+
+
+            <section>
+
+
+                <div class="">
+                    <table class="am-table">
+                        <thead>
+                            <tr>
+                                <th>Photo</th>
+                                <th>Name</th>
+                                <!-- <th>Status</th> -->
+                                <th>Address</th>
+
+                                <th>Phone</th>
+                                <th>What's App</th>
+                                <th>facebook</th>
+                                <th>Updated Date</th>
+                                <th>Manage</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabledatas">
+                            <tr v-for="(item,index)  of  list">
+                                <td> <img class="tableImg" :src="item.image" style="width: 20px;height: 15px"> </td>
+                                <td>{{item.name}}</td>
+
+                                <!-- <td>可預約</td> -->
+                                <td>{{item.address}}</td>
+
+                                <td>{{item.phone}}</td>
+                                <td>{{item.whatsApp}}</td>
+                                <td>{{item.facebook}}</td>
+
+                                <td>{{item.addDate}}</td>
+                                <td><button type="button" class="am-btn am-round amtable_btn" @click="addshow('Edit','{:U('addshow')}?id='+item.id,1000,700)">Edit</button><button type="button" class="am-btn am-round amtable_delbtn" @click=del(item.id,index)>delete</button></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="13">
+                                    <el-pagination background layout="prev, pager, next" :total="total" :page-size="page_size" @current-change="change_page">
+                                    </el-pagination>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+            </section>
+        </div>
+
+
+
+    </div>
+
+    <!-- mainbox_ban end -->
+
+
+
+
+</body>
+
+</html>
+
+
+
+
+<script type="text/javascript">
+    new Vue({
+        el: '#app',
+        data: {
+            total: 0, // 記錄總條數
+            list: [],
+            page_size: 20,
+            search_name: '',
+            typeList: [],
+            tagsMoren: "選擇標簽",
+
+        },
+
+        created: function() {
+
+            this.pageLoad(1);
+        },
+        methods: {
+            pageLoad: function(page, name) {
+
+                name = this.search_name;
+                if (name == undefined) {
+                    name = '';
+                }
+
+                var that = this;
+                $.ajax({
+                    url: "{:U('index_data')}?pagesize=" + this.page_size + "&page=" + page + "&name=" + name,
+                    dataType: "json",
+                    type: "get",
+                    success: function(res) {
+                        that.list = res.data
+                        that.total = res.count;
+
+
+                    }
+                })
+            },
+
+
+            edit: function(title, url, w, h) {
+                layer_show(title, url, w, h);
+            },
+
+            del: function(id, xh) {
+                var that = this;
+                layer.confirm(' Are you sure you want to delete? ', function(index) {
+                    $.ajax({
+                        type: 'get',
+                        url: '{:U("del")}?id=' + id,
+                        dataType: 'json',
+                        success: function(data) {
+                            layer.msg(data.msg);
+                            if (data.status == 111) {
+                                that.list.splice(xh, 1);
+                            }
+                        },
+
+                    });
+                });
+
+            },
+            addshow: function(title, url, w, h) {
+                layer_show(title, url, w, h);
+            },
+
+            change_page: function(val) {
+                this.pageLoad(val)
+            },
+            search: function() {
+                this.pageLoad(1, this.search_name);
+
+            },
+            outData: function() {
+                layer.msg('exporting...');
+                location.href = "{:U('excel/outShop')}";
+
+            },
+
+
+
+
+
+
+        }
+
+    })
+
+
+
+    $('#delall').click(function() {
+        var id_arr = [];
+        var arr = $('input[name=id]');
+        for (i = 0; i < arr.length; i++) {
+            if (arr[i].checked) {
+                id_arr.push(arr[i].value);
+            }
+        }
+        var id_str = id_arr.join(',');
+
+        if (id_str == false) {
+            layer.msg('請選擇要刪除的項');
+            return false;
+        }
+
+        layer.confirm('確認要刪除嗎？',
+            function(index) {
+
+                $.ajax({
+                    url: "{:U('del')}" + "?id=" + id_str,
+                    type: "get",
+                    dataType: "json",
+                    success: function(res) {
+                        layer.msg(res.msg);
+                        if (res.status == 111) {
+                            setTimeout(function() {
+                                    location.reload();
+                                },
+                                900);
+                        }
+                    }
+                })
+
+            })
+
+    })
+
+
+    $("#checkall").click(function() {
+        $('[name=id]:checkbox').attr('checked', this.checked); //checked為true時為默認顯示的狀態  
+    });
+
+
+    $("#checkrev").click(function() {
+        //實現反選功能 
+        $('[name=id]:checkbox').each(function() {
+            this.checked = !this.checked;
+        });
+    });
+</script>

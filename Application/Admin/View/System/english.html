@@ -1,0 +1,153 @@
+<include file="Common/head" />
+	<body>
+		
+		<div  style="width: 60%;margin: auto; padding: 60px 0; ">
+		<form  id="form">	
+
+
+		<div  style="text-align: left;color: #C6999E;font-size: 30px ;text-indent: 20px ;margin:0px 0 25px; position: relative;" > </div>	
+
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Title block module</div>
+				<div  class="adminInputLine"><input type="text"  name="navTitle" value="{$info.navTitle}"  /></div>
+
+			</div>
+
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">WHATSAPP</div>
+				<div  class="adminInputLine"><input type="text"  name="whatsapp" value="{$info.whatsapp}"  /></div>
+
+			</div>
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Phone</div>
+				<div  class="adminInputLine"><input type="text"  name="phone" value="{$info.phone}"  /></div>
+
+			</div>
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Working hour</div>
+				<div  class="adminInputLine"><input type="text"  name="workTime" value="{$info.workTime}"  /></div>
+
+			</div>
+
+
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Working Date</div>
+				<div  class="adminInputLine"><input type="text"  name="workDate" value="{$info.workDate}"  /></div>
+
+			</div>
+
+			
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Company name1</div>
+				<div  class="adminInputLine"><input type="text"  name="companyName1" value="{$info.companyName1}"  /></div>
+
+			</div>
+
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Company name2</div>
+				<div  class="adminInputLine"><input type="text"  name="companyName2" value="{$info.companyName2}"  /></div>
+
+			</div>
+
+
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Address1</div>
+				<div  class="adminInputLine"><input type="text"  name="address1" value="{$info.address1}"  /></div>
+
+			</div>
+
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">Address2</div>
+				<div  class="adminInputLine"><input type="text"  name="address2" value="{$info.address2}"  /></div>
+
+			</div>
+
+
+
+			
+
+			
+
+			
+
+			<div  class="adminInputGroup"  style="text-align: center;">
+
+
+				<span class="saveDoBtn" >save</span>
+			
+			</div>
+
+
+
+			
+
+
+
+
+
+
+
+		</form>
+
+		</div>
+		
+		
+	</body>
+</html>
+
+
+<script type="text/javascript">
+
+
+var url="{:U('pcsetSave')}?id=2";
+
+
+
+$('.saveDoBtn').click(function(){
+
+	
+	
+	
+	
+	$.ajax({
+			url:url,
+			type:"post",
+			dataType:"json",
+			data:new FormData($('#form')[0]),
+	    	processData:false,
+	    	contentType:false,
+			success:function(data){
+
+				if(data.status==111){
+                        layer.msg(data.msg);
+                        setTimeout(function(){
+                         //location.reload();
+                        },500)
+                    }else{
+                        layer.msg(data.msg);
+                	}
+
+
+
+				
+			}
+		})
+	
+	
+	
+
+	
+	
+})
+
+</script>
+
+

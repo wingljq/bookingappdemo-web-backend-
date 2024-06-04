@@ -1,0 +1,240 @@
+<include file="Common/head" />
+	<body>
+		
+		<div  style="width: 60%;margin: auto; padding: 60px 0; ">
+		<form  id="form">	
+
+
+		<div  style="text-align: left;color: #C6999E;font-size: 30px ;text-indent: 20px ;margin:0px 0 25px; position: relative;" > </div>	
+
+
+			<div  class="adminInputGroup">
+				<div  class="adminInputTitle">HomePage banner</div>
+				<div  class="adminInputLine">
+
+
+						<div class="upload-main">
+						<div class="upload-image">
+						<if condition="$info['homeBanner']" >
+						    <volist  name="info['homeBanner']"  id="vo"  >
+						    <div class="uploaded-main"><span class="del-image" style="display: none;"><span pic_url="{$vo}">X</span></span><img  src="{$vo}" alt=""></div>
+						    </volist>
+						</if>
+						</div>
+
+						<input type="hidden" name="homeBanner"  id="show_pic"   >
+						<div class="upload-btn">
+						<div class="upload-btn-right" onclick="F_Open_dialog()">Select Picture</div>
+						<input type="file" id="image" onchange="uploadImage(this,1,0)"   style="display:none">
+						</div>
+						</div>
+						
+
+				</div>
+
+			</div>
+
+
+			<div  class="adminInputGroup" >
+				<div  class="adminInputTitle">About page top Pictures</div>
+				<div  class="adminInputLine"  style="position: relative;height: 55px" >
+				<span  class="addPicBtn" ><i id="icon-shangchuan1" class="iconfont icon-shangchuan1"></i>&nbsp;Select Picture </span>
+				<input  class="addPicInput"     type="file"  placeholder="" name="aboutImage"   />
+				<img  style="width: 100px;margin-left: 100px;position: absolute;z-index: 100;height: 60px;"    src="{$info.aboutImage}">
+
+				<div style="clear: both;"></div>
+
+				
+				</div>
+			
+			</div>
+
+
+
+
+
+
+
+
+			<div  class="adminInputGroup"   style="margin-top: 35px">
+				<div  class="adminInputTitle">Latest offers  page pictures</div>
+				<div  class="adminInputLine"  style="position: relative;height: 55px" >
+
+				<span  class="addPicBtn" ><i id="icon-shangchuan1" class="iconfont icon-shangchuan1"></i>&nbsp;Select Picture </span>
+				<input  class="addPicInput"   type="file"  placeholder="" name="latestoffersPagePictures"   />
+
+				<img  style="width: 100px;margin-left: 100px;position: absolute;z-index: 100;height: 60px;"    src="{$info.latestoffersPagePictures}">
+
+				<div style="clear: both;"></div>
+
+				
+				</div>
+			
+			</div>
+
+			
+
+
+			
+
+
+
+
+			<div  class="adminInputGroup"  style="text-align: center;">
+
+
+				<span class="saveDoBtn" >save</span>
+			
+			</div>
+
+
+
+			
+
+
+
+
+
+
+
+		</form>
+
+		</div>
+		
+		
+	</body>
+</html>
+
+
+<script type="text/javascript">
+
+
+var url="{:U('pcsetSave')}?id=1";
+
+
+
+$('.saveDoBtn').click(function(){
+
+
+
+	   var image=[];
+        $(".uploaded-main>img").each(function(){
+           image.push($(this).attr('src'));
+        });
+        var  imgstr='';
+        imgstr=image.join(";");
+        $('#show_pic').val(imgstr);
+	
+	
+		layer.load(1);
+
+	$.ajax({
+			url:"{:U('system/save')}",
+			type:"post",
+			dataType:"json",
+			data:new FormData($('#form')[0]),
+	    	processData:false,
+	    	contentType:false,
+			success:function(data){
+					 layer.closeAll('loading');
+
+				if(data.status==111){
+                        layer.msg(data.msg);
+                        setTimeout(function(){
+                         //location.reload();
+                        },500)
+                    }else{
+                        layer.msg(data.msg);
+                	}
+
+
+
+				
+			}
+		})
+	
+	
+	
+
+	
+	
+})
+
+</script>
+
+
+ <script>
+    function F_Open_dialog()
+    {
+        document.getElementById("image").click();
+
+    }
+    function uploadImage(obj,imgType,preIndex){
+
+        if($(obj).val()){
+            var formdata=new FormData();
+            formdata.append('file',$(obj)[0].files[0]);
+            $.ajax({
+                type:'post',
+                url:"{:U('base/addpic')}",
+                data:formdata,
+                dataType:"json",
+                cache: false,
+                processData: false,
+                contentType: false,
+                success:function(s){
+                    layer.msg(s.msg);
+                    if(s.status==111){
+                        if(imgType==1){
+                            var html='<div class="uploaded-main">'+
+                                '<span class="del-image">'+
+                                '<span>X</span>'+
+                                '</span>'+
+                                '<img src="'+ s.path+'"  alt="">'+
+                                '</div>';
+                            $(".upload-image").append(html);
+                            var old=parseInt($(".upload-btn-left>span").text());
+                            $(".upload-btn-left>span").text(old+1);
+
+                        }else{
+                            $("#prePic").find('img').eq(preIndex).attr("src",s.path);
+                        }
+                        
+                    }
+                }
+            })
+        }
+    }
+
+    $(document).on("mouseenter",".uploaded-main",function(){
+        $(this).children('span').show();
+    })
+    $(document).on("mouseleave",".uploaded-main",function(){
+        $(this).children('span').hide();
+    })
+
+    $(document).on('click',".del-image>span",function(){
+
+        if(confirm('is  sure delete?')){
+            $(this).parent().parent().remove();
+            var old=parseInt($(".upload-btn-left>span").text());
+            $(".upload-btn-left>span").text(old-1);
+        }
+
+
+    })
+    $(".iradio-blue").click(function(){
+        var tindex=$(this).parent('div').index();
+        $(this).addClass('checked');
+        $(this).children('input').prop('checked','checked');
+        if(tindex == 1){
+            $(this).parent('div').prev('div').children('div').removeClass("checked").children('input').removeAttr('checked');
+        }else{
+            $(this).parent('div').next('div').children('div').removeClass("checked").children('input').removeAttr('checked');
+        }
+    })
+
+   
+
+</script>
+
